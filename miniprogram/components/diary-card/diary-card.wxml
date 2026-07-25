@@ -1,0 +1,24 @@
+<!-- components/diary-card/diary-card.wxml -->
+<view class="card theme-{{theme}}" bindtap="onTap">
+  <view class="bar"></view>
+  <!-- 日期块 -->
+  <view class="date">
+    <text class="day serif">{{diary.dayText}}</text>
+    <text class="month">{{diary.monthText}}</text>
+    <text class="week">{{diary.weekText}}</text>
+  </view>
+  <!-- 内容 -->
+  <view class="body">
+    <view class="content ellipsis-2">{{diary.content || '（空白日记）'}}</view>
+    <view class="meta">
+      <text class="mood" wx:if="{{diary.mood}}">{{diary.mood}}</text>
+      <view class="tags" wx:if="{{diary.tags.length}}">
+        <text class="tag" wx:for="{{diary.tags}}" wx:key="*this">#{{item}}</text>
+      </view>
+    </view>
+  </view>
+  <!-- 删除 -->
+  <view class="del" catchtap="onDelete">
+    <text class="del-icon">×</text>
+  </view>
+</view>

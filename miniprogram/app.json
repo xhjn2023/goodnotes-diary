@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/edit/edit",
+    "pages/archive/archive"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F5F1EA",
+    "navigationBarTitleText": "日记本",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F5F1EA",
+    "enablePullDownRefresh": false
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeRendering": "requiredComponents"
+}

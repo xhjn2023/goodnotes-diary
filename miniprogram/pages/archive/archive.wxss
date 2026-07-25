@@ -1,0 +1,179 @@
+/* pages/archive/archive.wxss */
+.topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 24rpx 0 32rpx;
+}
+.title-wrap { display: flex; align-items: baseline; gap: 16rpx; }
+.title {
+  font-size: 56rpx;
+  color: var(--ink);
+  letter-spacing: 2rpx;
+}
+.subtitle {
+  font-size: 24rpx;
+  color: var(--ink-faint);
+}
+.theme-btn {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1rpx solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+.theme-icon {
+  font-size: 32rpx;
+  color: var(--accent);
+}
+
+/* 月份分组 */
+.month-group {
+  border-top: 2rpx solid var(--accent);
+  padding: 24rpx 0;
+}
+.month-group:first-child { border-top: none; }
+.month-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8rpx 0;
+}
+.month-left {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+}
+.month-text {
+  font-size: 40rpx;
+  color: var(--ink);
+  font-weight: 600;
+}
+.month-count {
+  font-size: 24rpx;
+  color: var(--accent);
+}
+.chevron {
+  font-size: 40rpx;
+  color: var(--ink-faint);
+  transform: rotate(90deg);
+  transition: transform 0.2s ease;
+  line-height: 1;
+}
+.chevron.open {
+  transform: rotate(-90deg);
+}
+
+/* 展开条目 */
+.month-body {
+  padding-top: 12rpx;
+}
+.archive-item {
+  display: flex;
+  gap: 24rpx;
+  padding: 24rpx 0;
+  border-bottom: 1rpx dashed var(--border-soft);
+}
+.archive-item:last-child { border-bottom: none; }
+.archive-item:active { opacity: 0.6; }
+.ai-date {
+  width: 120rpx;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+.ai-day {
+  font-size: 26rpx;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+.ai-week {
+  font-size: 22rpx;
+  color: var(--ink-faint);
+  margin-top: 4rpx;
+}
+.ai-body {
+  flex: 1;
+  min-width: 0;
+}
+.ai-content {
+  font-size: 28rpx;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.ai-meta {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 12rpx;
+  flex-wrap: wrap;
+}
+.ai-mood { font-size: 28rpx; }
+.ai-tags { display: flex; gap: 10rpx; flex-wrap: wrap; }
+.ai-tag {
+  font-size: 20rpx;
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+/* 空状态 */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 140rpx 0;
+}
+.empty-icon {
+  font-size: 80rpx;
+  color: var(--ink-faint);
+  opacity: 0.4;
+  margin-bottom: 24rpx;
+}
+.empty-text {
+  font-size: 30rpx;
+  color: var(--ink-muted);
+  margin-bottom: 12rpx;
+}
+.empty-hint {
+  font-size: 24rpx;
+  color: var(--ink-faint);
+}
+
+/* 底部导航 */
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(env(safe-area-inset-bottom) + 110rpx);
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--surface);
+  border-top: 1rpx solid var(--border-soft);
+  display: flex;
+  z-index: 40;
+}
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6rpx;
+}
+.tab-icon {
+  font-size: 36rpx;
+  color: var(--ink-faint);
+}
+.tab-label {
+  font-size: 22rpx;
+  color: var(--ink-faint);
+}
+.tab.active .tab-icon,
+.tab.active .tab-label {
+  color: var(--accent);
+  font-weight: 600;
+}

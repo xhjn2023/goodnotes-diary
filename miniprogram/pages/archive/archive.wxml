@@ -1,0 +1,72 @@
+<!-- pages/archive/archive.wxml -->
+<view class="container theme-{{theme}} safe-bottom">
+  <!-- 顶部 -->
+  <view class="topbar">
+    <view class="title-wrap">
+      <text class="title serif">归档</text>
+      <text class="subtitle">共 {{totalCount}} 篇日记</text>
+    </view>
+    <view class="theme-btn" bindtap="onToggleTheme">
+      <text class="theme-icon">{{theme === 'light' ? '☾' : '☀'}}</text>
+    </view>
+  </view>
+
+  <!-- 月份分组列表 -->
+  <view class="archive-list">
+    <block wx:for="{{archive}}" wx:key="month" wx:for-index="i">
+      <view class="month-group">
+        <view class="month-header" data-idx="{{i}}" bindtap="onToggle">
+          <view class="month-left">
+            <text class="month-text serif">{{item.monthText}}</text>
+            <text class="month-count">{{item.count}} 篇</text>
+          </view>
+          <text class="chevron {{item.expanded ? 'open' : ''}}">›</text>
+        </view>
+
+        <!-- 展开内容 -->
+        <view class="month-body" wx:if="{{item.expanded}}">
+          <view
+            class="archive-item"
+            wx:for="{{item.items}}"
+            wx:for-item="it"
+            wx:key="id"
+            data-id="{{it.id}}"
+            bindtap="onTapItem">
+            <view class="ai-date">
+              <text class="ai-day">{{it.dayText}}</text>
+              <text class="ai-week">{{it.weekText}}</text>
+            </view>
+            <view class="ai-body">
+              <text class="ai-content ellipsis-2">{{it.content || '（空白日记）'}}</text>
+              <view class="ai-meta">
+                <text class="ai-mood" wx:if="{{it.mood}}">{{it.mood}}</text>
+                <view class="ai-tags" wx:if="{{it.tags.length}}">
+                  <text class="ai-tag" wx:for="{{it.tags}}" wx:for-item="t" wx:key="*this">#{{t}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 空状态 -->
+    <view class="empty" wx:if="{{!archive.length}}">
+      <text class="empty-icon">▤</text>
+      <text class="empty-text">还没有归档</text>
+      <text class="empty-hint">写下的日记会按月归档在这里</text>
+    </view>
+  </view>
+
+  <!-- 底部导航 -->
+  <view class="tabbar">
+    <view class="tab" bindtap="onGotoHome">
+      <text class="tab-icon">✎</text>
+      <text class="tab-label">日记</text>
+    </view>
+    <view class="tab active">
+      <text class="tab-icon">▤</text>
+      <text class="tab-label">归档</text>
+    </view>
+  </view>
+</view>

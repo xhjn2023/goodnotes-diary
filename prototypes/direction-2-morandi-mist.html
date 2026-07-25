@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>方向二 · 晨雾莫兰迪 Morandi Mist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   方向二 · 晨雾莫兰迪 Morandi Mist
+   极简留白 · 性冷淡风 · 低饱和莫兰迪 · 瀑布流卡片
+   ============================================================ */
+
+/* ===== CSS 变量：浅色（晨雾） ===== */
+:root {
+  --mist-bg:       #E8E2DC;   /* 雾灰底 */
+  --cream-card:    #F5F1EC;   /* 米白卡 */
+  --ink-text:      #4A4540;   /* 墨灰文字 */
+  --mist-blue:     #9CADC0;   /* 雾蓝 */
+  --bean-pink:     #C9A8A0;   /* 豆沙粉 */
+  --sage-green:    #A8B5A0;   /* 鼠尾草 */
+  --warm-beige:    #D4C5B9;   /* 暖米 */
+  --mauve:         #B0A8B5;   /* 灰紫 */
+  --border-soft:   #D8D2CC;   /* 浅边框 */
+  --page-bg:       #F0EBE5;   /* 桌面页面背景 */
+
+  --text-2:        rgba(74, 69, 64, 0.60);  /* 次级文字 */
+  --text-3:        rgba(74, 69, 64, 0.38);  /* 三级文字 */
+  --shadow-soft:   0 12px 36px rgba(74, 69, 64, 0.07), 0 4px 14px rgba(74, 69, 64, 0.04);
+  --shadow-card:   0 18px 48px rgba(74, 69, 64, 0.08), 0 6px 18px rgba(74, 69, 64, 0.04);
+  --shadow-fab:   0 14px 32px rgba(156, 173, 192, 0.50), 0 4px 12px rgba(156, 173, 192, 0.30);
+}
+
+/* ===== CSS 变量：深色（夜雾） ===== */
+[data-theme="dark"] {
+  --mist-bg:       #2C2A28;   /* 深雾底 */
+  --cream-card:    #3A3835;   /* 深米卡 */
+  --ink-text:      #E8E2DC;   /* 雾色文字 */
+  --mist-blue:     #9CADC0;   /* 雾蓝点缀 */
+  --bean-pink:     #C9A8A0;
+  --sage-green:    #A8B5A0;
+  --warm-beige:    #D4C5B9;
+  --mauve:         #B0A8B5;
+  --border-soft:   #4A4845;
+  --page-bg:       #1A1918;
+
+  --text-2:        rgba(232, 226, 220, 0.60);
+  --text-3:        rgba(232, 226, 220, 0.38);
+  --shadow-soft:   0 12px 36px rgba(0, 0, 0, 0.35), 0 4px 14px rgba(0, 0, 0, 0.25);
+  --shadow-card:   0 18px 48px rgba(0, 0, 0, 0.45), 0 6px 18px rgba(0, 0, 0, 0.30);
+  --shadow-fab:   0 14px 32px rgba(156, 173, 192, 0.30), 0 4px 12px rgba(156, 173, 192, 0.18);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { width: 100%; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--page-bg);
+  min-height: 100vh;
+  color: var(--ink-text);
+  padding: 64px 40px 80px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.6s ease, color 0.6s ease;
+}
+
+/* ============================================================
+   页面顶部标题区
+   ============================================================ */
+.page-header {
+  max-width: 1280px;
+  margin: 0 auto 56px;
+  text-align: center;
+}
+
+.page-header .eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  color: var(--mist-blue);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.page-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: clamp(30px, 4vw, 44px);
+  letter-spacing: 0.01em;
+  color: var(--ink-text);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.page-header h1 .sep {
+  color: var(--mist-blue);
+  margin: 0 12px;
+  font-weight: 300;
+}
+
+.page-header h1 .en {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-2);
+  font-size: 0.72em;
+}
+
+.page-header p {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-2);
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+}
+
+.page-header .meta-tags {
+  margin-top: 22px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.page-header .meta-tags span {
+  font-size: 11px;
+  font-weight: 400;
+  padding: 5px 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: 100px;
+  color: var(--text-2);
+  background: transparent;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   手机外框容器（三屏并排）
+   ============================================================ */
+.phones {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   单个手机外框 375 × 780
+   ============================================================ */
+.phone {
+  width: 375px;
+  height: 780px;
+  background: var(--mist-bg);
+  border-radius: 40px;
+  border: 12px solid #1A1816;
+  box-shadow:
+    0 36px 70px -18px rgba(0, 0, 0, 0.30),
+    0 14px 32px -10px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: background 0.6s ease;
+}
+
+/* 屏幕滚动区 */
+.screen {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  color: var(--ink-text);
+  background: var(--mist-bg);
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+}
+.screen::-webkit-scrollbar { display: none; }
+
+/* ============================================================
+   状态栏（9:41 + 信号电量）
+   ============================================================ */
+.status-bar {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px 0 30px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-text);
+  flex-shrink: 0;
+}
+
+.status-bar .right { display: flex; align-items: center; gap: 6px; }
+.status-bar svg { display: block; }
+
+/* ============================================================
+   屏1 · 首页日记列表
+   ============================================================ */
+
+/* 顶部标题区 */
+.s1-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 26px 18px;
+}
+
+.s1-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 38px;
+  color: var(--ink-text);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+/* 深浅色切换按钮 */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-soft);
+  background: var(--cream-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--ink-text);
+  transition: all 0.4s ease;
+  box-shadow: var(--shadow-soft);
+}
+.theme-toggle:hover { border-color: var(--mist-blue); color: var(--mist-blue); }
+.theme-toggle .icon-moon { display: none; }
+.theme-toggle .icon-sun { display: block; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+
+/* 搜索框（胶囊形） */
+.search {
+  margin: 4px 26px 18px;
+  height: 40px;
+  border: 1px solid var(--border-soft);
+  border-radius: 100px;
+  background: var(--cream-card);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 18px;
+  color: var(--text-2);
+  box-shadow: var(--shadow-soft);
+}
+.search input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--ink-text);
+  flex: 1;
+}
+.search input::placeholder { color: var(--text-3); font-weight: 300; }
+
+/* 心情筛选圆点 */
+.mood-filter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 26px 20px;
+}
+.mood-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.mood-dot.m-sun    { background: var(--bean-pink); }
+.mood-dot.m-rain   { background: var(--mist-blue); }
+.mood-dot.m-tea    { background: var(--sage-green); }
+.mood-dot.m-spark  { background: var(--warm-beige); }
+.mood-dot.m-moon   { background: var(--mauve); }
+.mood-dot.active {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 3px var(--cream-card), 0 0 0 4px var(--mist-blue);
+}
+.mood-all {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-2);
+  cursor: pointer;
+  letter-spacing: 0.05em;
+}
+
+/* 瀑布流日记列表（双列交错） */
+.diary-waterfall {
+  padding: 0 18px 110px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.diary-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 日记卡片 */
+.diary-card {
+  background: var(--cream-card);
+  border-radius: 20px;
+  padding: 20px 18px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(216, 210, 204, 0.5);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+}
+.diary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 56px rgba(74, 69, 64, 0.10), 0 8px 20px rgba(74, 69, 64, 0.05);
+}
+
+.diary-card .card-date {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-3);
+  letter-spacing: 0.06em;
+  margin-bottom: 14px;
+}
+
+.diary-card .card-mood {
+  font-size: 32px;
+  line-height: 1;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.diary-card .card-excerpt {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.75;
+  margin-bottom: 14px;
+  letter-spacing: 0.01em;
+}
+
+.diary-card .card-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.diary-card .card-tag {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text-3);
+  letter-spacing: 0.05em;
+}
+.diary-card .card-tag::before { content: '#'; margin-right: 1px; opacity: 0.7; }
+
+/* 卡片高度变奏（节奏感） */
+.diary-card.tall   { padding-bottom: 26px; }
+.diary-card.tall .card-excerpt { -webkit-line-clamp: 4; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+.diary-card.short  { padding: 18px 18px 20px; }
+.diary-card.short .card-mood { font-size: 26px; margin-bottom: 10px; }
+.diary-card.short .card-excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+/* 悬浮 + 按钮 */
+.fab {
+  position: absolute;
+  right: 22px;
+  bottom: 92px;
+  width: 52px;
+  height: 52px;
+  border-radius: 100px;
+  background: var(--mist-blue);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-fab);
+  border: none;
+  cursor: pointer;
+  z-index: 5;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.fab:hover { transform: translateY(-2px) scale(1.03); }
+
+/* 底部 Tab 栏 */
+.tab-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 72px;
+  background: var(--cream-card);
+  border-top: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 10px;
+  z-index: 4;
+}
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-3);
+  font-size: 10.5px;
+  font-weight: 400;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: color 0.3s ease;
+}
+.tab.active { color: var(--mist-blue); }
+.tab-icon { transition: color 0.3s ease; }
+
+/* ============================================================
+   屏2 · 写日记页
+   ============================================================ */
+.s2-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 24px 16px;
+}
+
+.s2-header .back {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-text);
+  cursor: pointer;
+}
+
+.s2-header .done {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--mist-blue);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 4px;
+  letter-spacing: 0.04em;
+}
+
+/* 日期区（大留白） */
+.s2-date {
+  padding: 36px 28px 26px;
+  cursor: pointer;
+}
+.s2-date .date-main {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 44px;
+  color: var(--ink-text);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+.s2-date .date-year {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--text-3);
+  margin-top: 8px;
+  letter-spacing: 0.1em;
+}
+
+/* 心情选择（横排圆形） */
+.mood-section {
+  padding: 0 28px 24px;
+}
+.section-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  color: var(--text-3);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.mood-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.mood-item {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: all 0.3s ease;
+}
+.mood-item.selected {
+  border-color: var(--mist-blue);
+  background: rgba(156, 173, 192, 0.10);
+}
+
+/* 标签输入（下划线极简） */
+.tag-section {
+  padding: 0 28px 24px;
+}
+.tag-input-wrap {
+  border: none;
+  border-bottom: 1px solid var(--border-soft);
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-3);
+  font-size: 13px;
+  font-weight: 300;
+}
+.tag-input-wrap input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--ink-text);
+  flex: 1;
+}
+.tag-input-wrap input::placeholder { color: var(--text-3); }
+
+.tag-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.tag-added {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 4px 10px;
+  color: var(--ink-text);
+  border-radius: 100px;
+  background: rgba(156, 173, 192, 0.14);
+}
+.tag-added .x {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-3);
+  cursor: pointer;
+  font-size: 11px;
+}
+
+/* 正文区（纯白大留白） */
+.editor-section {
+  padding: 4px 28px;
+  flex: 1;
+}
+.editor {
+  width: 100%;
+  min-height: 180px;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.9;
+  color: var(--ink-text);
+  letter-spacing: 0.01em;
+}
+.editor::placeholder { color: var(--text-3); font-weight: 300; }
+
+/* 底部字数提示 */
+.editor-footer {
+  padding: 16px 28px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--text-3);
+  letter-spacing: 0.05em;
+}
+.editor-footer .saved { color: var(--sage-green); }
+
+/* ============================================================
+   屏3 · 归档页
+   ============================================================ */
+.s3-header {
+  padding: 14px 28px 24px;
+}
+.s3-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 40px;
+  color: var(--ink-text);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+.s3-header .sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--text-3);
+  margin-top: 10px;
+  letter-spacing: 0.06em;
+}
+
+/* 月份列表 */
+.archive-list {
+  padding: 0 28px 30px;
+}
+.archive-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 2px;
+  border-bottom: 1px solid var(--border-soft);
+  cursor: pointer;
+  transition: padding 0.3s ease;
+}
+.archive-row:last-child { border-bottom: none; }
+.archive-row:hover { padding-left: 8px; }
+
+.archive-row .a-left {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.archive-row .a-month {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--ink-text);
+  letter-spacing: 0.01em;
+}
+.archive-row .a-year {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--text-3);
+  letter-spacing: 0.08em;
+}
+.archive-row .a-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.archive-row .a-count {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-2);
+  letter-spacing: 0.04em;
+}
+.archive-row .a-arrow {
+  color: var(--text-3);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+.archive-row:hover .a-arrow { color: var(--mist-blue); transform: translateX(3px); }
+
+/* 归档底部小字 */
+.archive-foot {
+  padding: 26px 28px 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--text-3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width: 1100px) {
+  body { padding: 48px 24px 64px; }
+  .phones {
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+  }
+}
+
+@media (max-width: 420px) {
+  body { padding: 28px 12px 48px; }
+  .phone {
+    width: calc(100vw - 24px);
+    max-width: 375px;
+    height: 740px;
+  }
+  .page-header h1 { font-size: 26px; }
+}
+
+/* 雾气纹理（叠加柔光） */
+.phone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 28px;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(circle at 20% 15%, rgba(156, 173, 192, 0.05), transparent 45%),
+    radial-gradient(circle at 80% 85%, rgba(201, 168, 160, 0.04), transparent 45%);
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+[data-theme="dark"] .phone::after { mix-blend-mode: screen; opacity: 0.18; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     页面顶部标题
+     ============================================================ -->
+<header class="page-header">
+  <div class="eyebrow">Design Direction · 02 / 04</div>
+  <h1>方向二<span class="sep">·</span>晨雾莫兰迪<span class="en">Morandi Mist</span></h1>
+  <p>极简留白，性冷淡风，低饱和莫兰迪色系。卡片瀑布流交错布局，柔和长投影，大量负空间营造静谧呼吸感。</p>
+  <div class="meta-tags">
+    <span>极简留白</span>
+    <span>低饱和莫兰迪</span>
+    <span>瀑布流卡片</span>
+    <span>柔和长投影</span>
+  </div>
+</header>
+
+<!-- ============================================================
+     三个手机外框并排
+     ============================================================ -->
+<div class="phones">
+
+  <!-- ====================== 屏1 · 首页日记列表 ====================== -->
+  <div class="phone">
+    <div class="screen">
+
+      <!-- 状态栏 -->
+      <div class="status-bar">
+        <span>9:41</span>
+        <div class="right">
+          <!-- 信号 -->
+          <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4.5" y="5" width="3" height="6" rx="0.5"/><rect x="9" y="2.5" width="3" height="8.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="11" rx="0.5"/></svg>
+          <!-- WiFi -->
+          <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor"><path d="M7.5 0C4.5 0 1.8 1.1 0 2.9l1.4 1.4C3 2.7 5.1 1.9 7.5 1.9s4.5 0.8 6.1 2.4L15 2.9C13.2 1.1 10.5 0 7.5 0zm0 3.8c-1.9 0-3.6 0.7-4.9 1.9l1.4 1.4c1-0.9 2.2-1.4 3.5-1.4s2.5 0.5 3.5 1.4l1.4-1.4C11.1 4.5 9.4 3.8 7.5 3.8zm0 3.7c-0.8 0-1.5 0.3-2.1 0.8l2.1 2.3 2.1-2.3c-0.6-0.5-1.3-0.8-2.1-0.8z"/></svg>
+          <!-- 电量 -->
+          <svg width="25" height="11" viewBox="0 0 25 11" fill="none"><rect x="0.5" y="0.5" width="21" height="10" rx="2.5" stroke="currentColor" opacity="0.4"/><rect x="2" y="2" width="18" height="7" rx="1.2" fill="currentColor"/><rect x="22.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor" opacity="0.4"/></svg>
+        </div>
+      </div>
+
+      <!-- 顶部标题 + 主题切换 -->
+      <div class="s1-header">
+        <h2>七月</h2>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="切换主题">
+          <!-- 太阳（浅色态显示） -->
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <!-- 月亮（深色态显示） -->
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+
+      <!-- 搜索框 -->
+      <div class="search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" placeholder="搜索日记..." />
+      </div>
+
+      <!-- 心情筛选圆点 -->
+      <div class="mood-filter">
+        <div class="mood-dot m-sun active" title="晴天"></div>
+        <div class="mood-dot m-rain" title="雨天"></div>
+        <div class="mood-dot m-tea" title="静谧"></div>
+        <div class="mood-dot m-spark" title="闪光"></div>
+        <div class="mood-dot m-moon" title="夜读"></div>
+        <span class="mood-all">全部</span>
+      </div>
+
+      <!-- 瀑布流日记列表（双列交错） -->
+      <div class="diary-waterfall" style="flex:1;">
+
+        <!-- 左列 -->
+        <div class="diary-col">
+          <!-- 卡片1 · 高卡 -->
+          <div class="diary-card tall">
+            <div class="card-date">7月25日 · 周六</div>
+            <div class="card-mood">☀️</div>
+            <div class="card-excerpt">清晨咖啡香里完成方案，窗外麻雀在叫。阳光斜斜地铺在桌上，一切都慢了下来，连风都温柔。</div>
+            <div class="card-tags">
+              <span class="card-tag">晨光</span>
+              <span class="card-tag">咖啡</span>
+            </div>
+          </div>
+
+          <!-- 卡片3 · 矮卡 -->
+          <div class="diary-card short">
+            <div class="card-date">7月20日 · 周一</div>
+            <div class="card-mood">🍵</div>
+            <div class="card-excerpt">重读《瓦尔登湖》，慢慢翻。</div>
+            <div class="card-tags">
+              <span class="card-tag">阅读</span>
+            </div>
+          </div>
+
+          <!-- 卡片5 · 矮卡 -->
+          <div class="diary-card short">
+            <div class="card-date">7月15日 · 周三</div>
+            <div class="card-mood">🌙</div>
+            <div class="card-excerpt">夜读，月色很美。</div>
+            <div class="card-tags">
+              <span class="card-tag">夜</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右列 -->
+        <div class="diary-col">
+          <!-- 卡片2 · 矮卡 -->
+          <div class="diary-card short">
+            <div class="card-date">7月23日 · 周四</div>
+            <div class="card-mood">🌧️</div>
+            <div class="card-excerpt">雨下一整天，买束雏菊。</div>
+            <div class="card-tags">
+              <span class="card-tag">雨</span>
+              <span class="card-tag">花</span>
+            </div>
+          </div>
+
+          <!-- 卡片4 · 高卡 -->
+          <div class="diary-card tall">
+            <div class="card-date">7月18日 · 周五</div>
+            <div class="card-mood">✨</div>
+            <div class="card-excerpt">老友重逢，聊到深夜。十年了，变了很多又像什么都没变。酒杯碰在一起，听见的都是旧时光的回声。</div>
+            <div class="card-tags">
+              <span class="card-tag">友情</span>
+              <span class="card-tag">深夜</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 悬浮 + 按钮 -->
+      <button class="fab" aria-label="新建日记">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+
+      <!-- 底部 Tab 栏 -->
+      <div class="tab-bar">
+        <div class="tab active">
+          <svg class="tab-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span>日记</span>
+        </div>
+        <div class="tab">
+          <svg class="tab-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/><path d="M8 6v12M16 6v12" opacity="0"/></svg>
+          <span>归档</span>
+        </div>
+        <div class="tab">
+          <svg class="tab-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+          <span>我的</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====================== 屏2 · 写日记页 ====================== -->
+  <div class="phone">
+    <div class="screen">
+
+      <!-- 状态栏 -->
+      <div class="status-bar">
+        <span>9:41</span>
+        <div class="right">
+          <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4.5" y="5" width="3" height="6" rx="0.5"/><rect x="9" y="2.5" width="3" height="8.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="11" rx="0.5"/></svg>
+          <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor"><path d="M7.5 0C4.5 0 1.8 1.1 0 2.9l1.4 1.4C3 2.7 5.1 1.9 7.5 1.9s4.5 0.8 6.1 2.4L15 2.9C13.2 1.1 10.5 0 7.5 0zm0 3.8c-1.9 0-3.6 0.7-4.9 1.9l1.4 1.4c1-0.9 2.2-1.4 3.5-1.4s2.5 0.5 3.5 1.4l1.4-1.4C11.1 4.5 9.4 3.8 7.5 3.8zm0 3.7c-0.8 0-1.5 0.3-2.1 0.8l2.1 2.3 2.1-2.3c-0.6-0.5-1.3-0.8-2.1-0.8z"/></svg>
+          <svg width="25" height="11" viewBox="0 0 25 11" fill="none"><rect x="0.5" y="0.5" width="21" height="10" rx="2.5" stroke="currentColor" opacity="0.4"/><rect x="2" y="2" width="18" height="7" rx="1.2" fill="currentColor"/><rect x="22.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor" opacity="0.4"/></svg>
+        </div>
+      </div>
+
+      <!-- 顶部：返回 + 完成 -->
+      <div class="s2-header">
+        <div class="back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </div>
+        <button class="done">完成</button>
+      </div>
+
+      <!-- 日期 -->
+      <div class="s2-date">
+        <div class="date-main">July 25</div>
+        <div class="date-year">2026 · 周六</div>
+      </div>
+
+      <!-- 心情选择 -->
+      <div class="mood-section">
+        <div class="section-label">Mood</div>
+        <div class="mood-row">
+          <div class="mood-item selected">☀️</div>
+          <div class="mood-item">🌧️</div>
+          <div class="mood-item">🍵</div>
+          <div class="mood-item">✨</div>
+          <div class="mood-item">🌙</div>
+        </div>
+      </div>
+
+      <!-- 标签 -->
+      <div class="tag-section">
+        <div class="tag-input-wrap">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.2" fill="currentColor"/></svg>
+          <input type="text" placeholder="标签..." />
+        </div>
+        <div class="tag-list">
+          <span class="tag-added">晨光<span class="x">×</span></span>
+          <span class="tag-added">咖啡<span class="x">×</span></span>
+        </div>
+      </div>
+
+      <!-- 正文区 -->
+      <div class="editor-section">
+        <textarea class="editor" placeholder="此刻...">清晨咖啡香里完成方案，窗外麻雀在叫。阳光斜斜地铺在桌上，一切都慢了下来。</textarea>
+      </div>
+
+      <!-- 底部字数提示 -->
+      <div class="editor-footer">
+        <span>32 字</span>
+        <span class="saved">● 已自动保存</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====================== 屏3 · 归档页 ====================== -->
+  <div class="phone">
+    <div class="screen">
+
+      <!-- 状态栏 -->
+      <div class="status-bar">
+        <span>9:41</span>
+        <div class="right">
+          <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4.5" y="5" width="3" height="6" rx="0.5"/><rect x="9" y="2.5" width="3" height="8.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="11" rx="0.5"/></svg>
+          <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor"><path d="M7.5 0C4.5 0 1.8 1.1 0 2.9l1.4 1.4C3 2.7 5.1 1.9 7.5 1.9s4.5 0.8 6.1 2.4L15 2.9C13.2 1.1 10.5 0 7.5 0zm0 3.8c-1.9 0-3.6 0.7-4.9 1.9l1.4 1.4c1-0.9 2.2-1.4 3.5-1.4s2.5 0.5 3.5 1.4l1.4-1.4C11.1 4.5 9.4 3.8 7.5 3.8zm0 3.7c-0.8 0-1.5 0.3-2.1 0.8l2.1 2.3 2.1-2.3c-0.6-0.5-1.3-0.8-2.1-0.8z"/></svg>
+          <svg width="25" height="11" viewBox="0 0 25 11" fill="none"><rect x="0.5" y="0.5" width="21" height="10" rx="2.5" stroke="currentColor" opacity="0.4"/><rect x="2" y="2" width="18" height="7" rx="1.2" fill="currentColor"/><rect x="22.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor" opacity="0.4"/></svg>
+        </div>
+      </div>
+
+      <!-- 顶部标题 -->
+      <div class="s3-header">
+        <h2>Archive</h2>
+        <div class="sub">142 entries</div>
+      </div>
+
+      <!-- 月份列表 -->
+      <div class="archive-list">
+        <div class="archive-row">
+          <div class="a-left">
+            <span class="a-month">July</span>
+            <span class="a-year">2026</span>
+          </div>
+          <div class="a-right">
+            <span class="a-count">28 篇</span>
+            <svg class="a-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <div class="archive-row">
+          <div class="a-left">
+            <span class="a-month">June</span>
+            <span class="a-year">2026</span>
+          </div>
+          <div class="a-right">
+            <span class="a-count">31 篇</span>
+            <svg class="a-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <div class="archive-row">
+          <div class="a-left">
+            <span class="a-month">May</span>
+            <span class="a-year">2026</span>
+          </div>
+          <div class="a-right">
+            <span class="a-count">25 篇</span>
+            <svg class="a-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <div class="archive-row">
+          <div class="a-left">
+            <span class="a-month">April</span>
+            <span class="a-year">2026</span>
+          </div>
+          <div class="a-right">
+            <span class="a-count">22 篇</span>
+            <svg class="a-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <div class="archive-row">
+          <div class="a-left">
+            <span class="a-month">March</span>
+            <span class="a-year">2026</span>
+          </div>
+          <div class="a-right">
+            <span class="a-count">19 篇</span>
+            <svg class="a-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <div class="archive-row">
+          <div class="a-left">
+            <span class="a-month">February</span>
+            <span class="a-year">2026</span>
+          </div>
+          <div class="a-right">
+            <span class="a-count">17 篇</span>
+            <svg class="a-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部小字 -->
+      <div class="archive-foot">Earliest · 2024.03</div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   主题切换（仅样式切换，记忆到 localStorage）
+   ============================================================ */
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  if (next === 'light') {
+    html.removeAttribute('data-theme');
+  } else {
+    html.setAttribute('data-theme', 'dark');
+  }
+  try { localStorage.setItem('morandi-theme', next); } catch (e) {}
+}
+
+/* 恢复上次主题 */
+(function() {
+  try {
+    const saved = localStorage.getItem('morandi-theme');
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  } catch (e) {}
+})();
+</script>
+
+</body>
+</html>

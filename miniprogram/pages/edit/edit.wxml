@@ -1,0 +1,73 @@
+<!-- pages/edit/edit.wxml -->
+<view class="container theme-{{theme}} safe-bottom">
+  <!-- 顶部操作栏 -->
+  <view class="topbar">
+    <text class="back" bindtap="onBack">‹</text>
+    <text class="top-title serif">{{isEdit ? '编辑' : '新的一页'}}</text>
+    <text class="save" bindtap="onSave">保存</text>
+  </view>
+
+  <!-- 日期 -->
+  <picker mode="date" value="{{date}}" bindchange="onDateChange">
+    <view class="date-row">
+      <text class="date-text serif">{{dateText}}</text>
+      <text class="date-edit">点击修改</text>
+    </view>
+  </picker>
+
+  <!-- 心情 -->
+  <view class="section">
+    <text class="section-label">今天的心情</text>
+    <view class="mood-row">
+      <view
+        wx:for="{{moods}}"
+        wx:key="*this"
+        class="mood-item {{mood === item ? 'active' : ''}}"
+        data-mood="{{item}}"
+        bindtap="onPickMood">
+        <text class="mood-emoji">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 标签 -->
+  <view class="section">
+    <text class="section-label">标签</text>
+    <view class="tag-input-row">
+      <input
+        class="tag-input"
+        placeholder="+ 添加标签"
+        placeholder-class="ph"
+        value="{{tagInput}}"
+        bindinput="onTagInput"
+        bindconfirm="onAddTag"
+        confirm-type="done" />
+      <text class="tag-add" bindtap="onAddTag">+</text>
+    </view>
+    <view class="tag-list" wx:if="{{tags.length}}">
+      <view class="tag-pill" wx:for="{{tags}}" wx:key="*this" wx:for-index="i">
+        <text class="tag-text">#{{item}}</text>
+        <text class="tag-del" data-idx="{{i}}" bindtap="onRemoveTag">×</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 正文 -->
+  <view class="section">
+    <text class="section-label">正文</text>
+    <textarea
+      class="content-area"
+      placeholder="今天，写下你想记住的..."
+      placeholder-class="content-ph"
+      value="{{content}}"
+      bindinput="onContentInput"
+      maxlength="-1"
+      auto-height />
+  </view>
+
+  <!-- 底部工具条 -->
+  <view class="toolbar">
+    <text class="count">{{charCount}} 字</text>
+    <text class="hint">自动保存在本地</text>
+  </view>
+</view>

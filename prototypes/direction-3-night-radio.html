@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>方向三 · 深夜电台 Night Radio</title>
+<!-- 字体引入 -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   设计方向三 · 深夜电台 Night Radio
+   沉浸式深色 · 电台调频意象 · 频段调谐交互
+   ============================================================ */
+
+/* ---------- CSS 变量 / 主题 ---------- */
+:root {
+  /* 深色（默认） */
+  --bg-deep: #1A1B2E;        /* 深墨蓝底 */
+  --bg-deeper: #14152A;      /* 更深 */
+  --card: #232540;           /* 卡片 */
+  --accent: #F5A623;         /* 暖琥珀 */
+  --accent-soft: rgba(245,166,35,0.16);
+  --accent-glow: rgba(245,166,35,0.45);
+  --text: #E8E6E1;           /* 月白 */
+  --text-dim: #8B8D9F;       /* 雾灰次要 */
+  --border: #2F3252;         /* 描边 */
+  --status-bar: #E8E6E1;
+  --page-bg: #0F1020;
+  --glow-radial: rgba(245,166,35,0.18);
+  --track-line: rgba(139,141,159,0.25);
+}
+[data-theme="light"] {
+  --bg-deep: #F5F4F0;
+  --bg-deeper: #ECEAE3;
+  --card: #FFFFFF;
+  --accent: #C97A1A;
+  --accent-soft: rgba(201,122,26,0.14);
+  --accent-glow: rgba(201,122,26,0.40);
+  --text: #1A1B2E;
+  --text-dim: #6B6D7F;
+  --border: #D9D6CE;
+  --status-bar: #1A1B2E;
+  --page-bg: #E8E5DC;
+  --glow-radial: rgba(201,122,26,0.16);
+  --track-line: rgba(26,27,46,0.12);
+}
+
+/* ---------- 全局重置 ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--page-bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  /* 琥珀色径向光晕 */
+  background-image:
+    radial-gradient(circle at 18% 12%, var(--glow-radial) 0%, transparent 38%),
+    radial-gradient(circle at 82% 88%, var(--glow-radial) 0%, transparent 42%),
+    radial-gradient(circle at 50% 50%, rgba(245,166,35,0.06) 0%, transparent 60%);
+  background-attachment: fixed;
+  padding: 40px 24px 64px;
+}
+
+/* ---------- 页面标题区 ---------- */
+.page-head {
+  max-width: 1240px;
+  margin: 0 auto 36px;
+  text-align: center;
+}
+.page-head h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+  letter-spacing: 0.5px;
+  color: var(--text);
+}
+.page-head h1 .dot {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 14px var(--accent-glow);
+  margin: 0 10px 4px;
+  vertical-align: middle;
+  animation: breathe 2.4s ease-in-out infinite;
+}
+.page-head p {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: 0.3px;
+  line-height: 1.7;
+}
+@keyframes breathe {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 14px var(--accent-glow); }
+  50% { opacity: 0.5; transform: scale(0.82); box-shadow: 0 0 6px var(--accent-glow); }
+}
+
+/* ---------- 手机外框容器（三屏并排） ---------- */
+.frames-wrap {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+/* 手机外框 */
+.phone {
+  position: relative;
+  width: 375px;
+  height: 780px;
+  background: var(--bg-deeper);
+  border-radius: 40px;
+  border: 12px solid #05060F;
+  box-shadow:
+    0 0 0 1.5px #2a2c44,
+    0 30px 70px rgba(0,0,0,0.65),
+    0 8px 24px rgba(0,0,0,0.45);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+/* 屏幕内滚动区域 */
+.screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-deep);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.screen-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 18px 100px;
+}
+.screen-scroll::-webkit-scrollbar { width: 0; }
+
+/* ---------- 状态栏 ---------- */
+.statusbar {
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px 0 26px;
+  color: var(--status-bar);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+}
+.statusbar .right { display: flex; align-items: center; gap: 6px; }
+.statusbar svg { display: block; }
+
+/* ============================================================
+   屏1 · 首页日记列表
+   ============================================================ */
+/* 顶部电台标识 + 主题切换 */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 20px 10px;
+}
+.fm-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+.fm-badge .live-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+  animation: breathe 2.4s ease-in-out infinite;
+}
+.icon-btn {
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all .2s;
+}
+.icon-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+/* 频段调谐条 */
+.tuner {
+  margin: 4px 18px 14px;
+  padding: 14px 14px 10px;
+  background: var(--bg-deeper);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  position: relative;
+}
+.tuner .wave {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 16px;
+  margin-bottom: 8px;
+  gap: 2px;
+}
+.tuner .wave i {
+  flex: 1;
+  background: var(--accent);
+  border-radius: 1px;
+  opacity: 0.55;
+}
+.tuner .wave i:nth-child(odd) { opacity: 0.85; }
+.tuner .scale {
+  position: relative;
+  height: 30px;
+}
+.tuner .scale .line {
+  position: absolute;
+  top: 6px; left: 0; right: 0;
+  height: 1px;
+  background: var(--track-line);
+}
+.tuner .scale .ticks {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.tuner .scale .tick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+.tuner .scale .tick .bar { width: 1px; height: 6px; background: var(--text-dim); opacity: 0.5; }
+.tuner .scale .tick.active { color: var(--accent); }
+.tuner .scale .tick.active .bar { background: var(--accent); height: 10px; opacity: 1; }
+.tuner .pointer {
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--accent);
+  filter: drop-shadow(0 0 6px var(--accent-glow));
+}
+
+/* 搜索框 */
+.search {
+  margin: 0 18px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 11px 14px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.search:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+}
+.search input::placeholder { color: var(--text-dim); }
+
+/* 日记卡片列表 */
+.section-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 20px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+}
+.section-label .right { color: var(--accent); }
+
+.diary-card {
+  position: relative;
+  background: var(--card);
+  border-radius: 16px;
+  padding: 14px 16px 14px 20px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+/* 左侧琥珀色信号竖线 */
+.diary-card::before {
+  content: "";
+  position: absolute;
+  left: 8px; top: 16px; bottom: 16px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+  opacity: 0.85;
+}
+.diary-card .ts {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.diary-card .body {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.6;
+  font-weight: 300;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.diary-card .foot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.diary-card .mood { font-size: 13px; }
+.diary-card .tag {
+  font-size: 10px;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 2px 8px;
+  letter-spacing: 0.3px;
+  background: var(--accent-soft);
+}
+
+/* 悬浮 + 按钮 */
+.fab {
+  position: absolute;
+  right: 22px;
+  bottom: 86px;
+  width: 54px; height: 54px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #1A1B2E;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  font-weight: 500;
+  box-shadow: 0 0 0 4px var(--accent-soft), 0 10px 26px rgba(0,0,0,0.5), 0 0 22px var(--accent-glow);
+  border: none;
+  cursor: pointer;
+  z-index: 5;
+}
+
+/* 底部 Tab 栏 */
+.tabbar {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 70px;
+  background: var(--bg-deeper);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 8px;
+}
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: var(--text-dim);
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+.tab.active { color: var(--accent); }
+.tab.active .tab-ic { filter: drop-shadow(0 0 6px var(--accent-glow)); }
+
+/* ============================================================
+   屏2 · 写日记页（沉浸式）
+   ============================================================ */
+.write-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 20px 8px;
+}
+.write-top .back { color: var(--accent); cursor: pointer; display: flex; align-items: center; }
+.write-top .broadcast {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+/* 顶部细波形 */
+.rec-wave {
+  height: 26px;
+  margin: 0 18px 6px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.rec-wave i {
+  flex: 1;
+  background: var(--accent);
+  border-radius: 1px;
+  opacity: 0.7;
+  animation: wavebar 1.2s ease-in-out infinite;
+}
+.rec-wave i:nth-child(2n) { animation-delay: .15s; opacity: 0.5; }
+.rec-wave i:nth-child(3n) { animation-delay: .3s; opacity: 0.85; }
+.rec-wave i:nth-child(5n) { animation-delay: .45s; }
+@keyframes wavebar {
+  0%, 100% { height: 20%; }
+  50% { height: 90%; }
+}
+
+/* 日期区 */
+.date-block {
+  padding: 8px 22px 14px;
+}
+.date-block .date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.date-block .sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  letter-spacing: 1px;
+}
+
+/* 心情选择 */
+.mood-row {
+  padding: 4px 22px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.mood-row .m {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all .2s;
+}
+.mood-row .m.sel {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft), 0 0 14px var(--accent-glow);
+}
+
+/* 标签 */
+.tag-row {
+  padding: 0 22px 14px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.tag-pill {
+  font-size: 11px;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: var(--accent-soft);
+  display: flex; align-items: center; gap: 5px;
+}
+.tag-add {
+  font-size: 11px;
+  color: var(--text-dim);
+  border: 1px dashed var(--border);
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* 正文区 */
+.editor {
+  flex: 1;
+  padding: 6px 22px 90px;
+  display: flex;
+  flex-direction: column;
+}
+.editor textarea {
+  flex: 1;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.85;
+  font-weight: 300;
+  caret-color: var(--accent);
+}
+.editor textarea::placeholder { color: var(--text-dim); }
+.editor textarea:focus { caret-color: var(--accent); }
+
+/* 写作底部状态条 */
+.write-foot {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 56px;
+  background: var(--bg-deeper);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+}
+.write-foot .count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+.write-foot .rec {
+  display: flex; align-items: center; gap: 7px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 1.5px;
+}
+.write-foot .rec .rdot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+  animation: blink 1s steps(2,start) infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+/* ============================================================
+   屏3 · 归档页
+   ============================================================ */
+.arc-head {
+  padding: 8px 22px 12px;
+}
+.arc-head h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: 0.5px;
+  color: var(--text);
+}
+.arc-head .sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 1.5px;
+  margin-top: 4px;
+}
+/* 顶部频段刻度装饰 */
+.arc-scale {
+  margin: 0 18px 8px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+}
+.arc-scale i {
+  flex: 1;
+  background: var(--text-dim);
+  opacity: 0.35;
+}
+.arc-scale i:nth-child(5n) { background: var(--accent); opacity: 0.8; height: 12px; }
+
+/* 月份节目单 */
+.month-list { padding: 0 18px; }
+.month-row {
+  border-bottom: 1px solid var(--border);
+  padding: 14px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.month-row .left .m {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text);
+  letter-spacing: 0.8px;
+}
+.month-row .left .t {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 3px;
+  letter-spacing: 0.5px;
+}
+.month-row .right {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+}
+.month-row .play {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+.month-row.active .left .m { color: var(--accent); }
+
+/* 展开的播放列表 */
+.tracks {
+  padding: 6px 4px 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.tracks .tr {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.tracks .tr:last-child { border-bottom: none; }
+.tracks .tr .tts {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  min-width: 42px;
+}
+.tracks .tr .ttxt {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text);
+  font-weight: 300;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.tracks .tr .tmo { font-size: 14px; }
+
+/* ---------- 响应式：移动端纵向堆叠 ---------- */
+@media (max-width: 900px) {
+  body { padding: 28px 16px 48px; }
+  .frames-wrap { flex-direction: column; align-items: center; gap: 28px; }
+  .page-head h1 { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 页面标题 -->
+<header class="page-head">
+  <h1>方向三<span class="dot"></span>深夜电台 Night Radio</h1>
+  <p>四个设计方向之一 · 沉浸式深色 · 电台调频意象 · 频段调谐交互 · 专注写作氛围</p>
+</header>
+
+<div class="frames-wrap">
+
+  <!-- ============================================================
+       屏 1 · 首页日记列表
+       ============================================================ -->
+  <section class="phone">
+    <div class="screen">
+      <!-- 状态栏 -->
+      <div class="statusbar">
+        <span>9:41</span>
+        <span class="right">
+          <!-- 信号 -->
+          <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="2.5" height="4" rx="0.5" fill="currentColor"/><rect x="4" y="5" width="2.5" height="6" rx="0.5" fill="currentColor"/><rect x="8" y="3" width="2.5" height="8" rx="0.5" fill="currentColor"/><rect x="12" y="0" width="2.5" height="11" rx="0.5" fill="currentColor"/></svg>
+          <!-- wifi -->
+          <svg width="15" height="11" viewBox="0 0 15 11" fill="none"><path d="M7.5 2C10 2 12.2 3 13.8 4.6l1-1C12.9 1.7 10.3.5 7.5.5S2.1 1.7.2 3.6l1 1C2.8 3 5 2 7.5 2z" fill="currentColor"/><path d="M7.5 5c1.4 0 2.7.5 3.7 1.5l1-1C11 4.2 9.3 3.5 7.5 3.5S4 4.2 2.8 5.5l1 1C4.8 5.5 6.1 5 7.5 5z" fill="currentColor"/><circle cx="7.5" cy="9" r="1.5" fill="currentColor"/></svg>
+          <!-- 电池 -->
+          <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="currentColor" fill="none"/><rect x="2" y="2" width="16" height="7" rx="1.2" fill="currentColor"/><rect x="21" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg>
+        </span>
+      </div>
+
+      <!-- 顶部电台标识 + 主题切换 -->
+      <div class="top-bar">
+        <div class="fm-badge">
+          <span class="live-dot"></span>
+          FM 92.6
+        </div>
+        <button class="icon-btn" id="themeToggle1" title="切换深浅色" aria-label="切换主题">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+
+      <div class="screen-scroll">
+        <!-- 频段调谐条 -->
+        <div class="tuner">
+          <div class="wave">
+            <i style="height:40%"></i><i style="height:70%"></i><i style="height:55%"></i><i style="height:90%"></i><i style="height:35%"></i><i style="height:65%"></i><i style="height:80%"></i><i style="height:45%"></i><i style="height:60%"></i><i style="height:75%"></i><i style="height:50%"></i><i style="height:85%"></i><i style="height:40%"></i><i style="height:70%"></i>
+          </div>
+          <div class="scale">
+            <div class="line"></div>
+            <div class="pointer"></div>
+            <div class="ticks">
+              <div class="tick"><span class="bar"></span>OCT</div>
+              <div class="tick"><span class="bar"></span>SEP</div>
+              <div class="tick"><span class="bar"></span>AUG</div>
+              <div class="tick active"><span class="bar"></span>JUL</div>
+              <div class="tick"><span class="bar"></span>JUN</div>
+              <div class="tick"><span class="bar"></span>MAY</div>
+              <div class="tick"><span class="bar"></span>APR</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 搜索框 -->
+        <div class="search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-dim)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="调频搜索..." />
+        </div>
+
+        <!-- 列表标题 -->
+        <div class="section-label">
+          <span>JUL 2026 · ON AIR</span>
+          <span class="right">04 RECORDINGS</span>
+        </div>
+
+        <!-- 日记卡片 1 -->
+        <article class="diary-card">
+          <div class="ts">23:47 · 7月25日</div>
+          <div class="body">夜深了，回放今天：清晨咖啡、完成方案、窗外麻雀。频率调到安静...</div>
+          <div class="foot">
+            <span class="mood">☀️</span>
+            <span class="tag">生活</span>
+            <span class="tag">晨间</span>
+          </div>
+        </article>
+
+        <!-- 日记卡片 2 -->
+        <article class="diary-card">
+          <div class="ts">22:15 · 7月23日</div>
+          <div class="body">雨声混进会议录音里。回家路上买了雏菊，放在窗台...</div>
+          <div class="foot">
+            <span class="mood">🌧️</span>
+            <span class="tag">工作</span>
+          </div>
+        </article>
+
+        <!-- 日记卡片 3 -->
+        <article class="diary-card">
+          <div class="ts">01:30 · 7月20日</div>
+          <div class="body">重读《瓦尔登湖》。梭罗的频率很低很稳，像深夜电台...</div>
+          <div class="foot">
+            <span class="mood">🍵</span>
+            <span class="tag">读书</span>
+          </div>
+        </article>
+
+        <!-- 日记卡片 4 -->
+        <article class="diary-card">
+          <div class="ts">00:08 · 7月18日</div>
+          <div class="body">老友重逢，聊到凌晨。十年，我们调到了同一个频段...</div>
+          <div class="foot">
+            <span class="mood">✨</span>
+            <span class="tag">相聚</span>
+          </div>
+        </article>
+      </div>
+
+      <!-- 悬浮 + -->
+      <button class="fab" aria-label="新建日记">+</button>
+
+      <!-- 底部 Tab -->
+      <nav class="tabbar">
+        <div class="tab active">
+          <span class="tab-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+          日记
+        </div>
+        <div class="tab">
+          <span class="tab-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg></span>
+          归档
+        </div>
+        <div class="tab">
+          <span class="tab-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+          设置
+        </div>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       屏 2 · 写日记页（沉浸式）
+       ============================================================ -->
+  <section class="phone">
+    <div class="screen">
+      <!-- 状态栏 -->
+      <div class="statusbar">
+        <span>9:41</span>
+        <span class="right">
+          <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="2.5" height="4" rx="0.5" fill="currentColor"/><rect x="4" y="5" width="2.5" height="6" rx="0.5" fill="currentColor"/><rect x="8" y="3" width="2.5" height="8" rx="0.5" fill="currentColor"/><rect x="12" y="0" width="2.5" height="11" rx="0.5" fill="currentColor"/></svg>
+          <svg width="15" height="11" viewBox="0 0 15 11" fill="none"><path d="M7.5 2C10 2 12.2 3 13.8 4.6l1-1C12.9 1.7 10.3.5 7.5.5S2.1 1.7.2 3.6l1 1C2.8 3 5 2 7.5 2z" fill="currentColor"/><path d="M7.5 5c1.4 0 2.7.5 3.7 1.5l1-1C11 4.2 9.3 3.5 7.5 3.5S4 4.2 2.8 5.5l1 1C4.8 5.5 6.1 5 7.5 5z" fill="currentColor"/><circle cx="7.5" cy="9" r="1.5" fill="currentColor"/></svg>
+          <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="currentColor" fill="none"/><rect x="2" y="2" width="16" height="7" rx="1.2" fill="currentColor"/><rect x="21" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg>
+        </span>
+      </div>
+
+      <!-- 顶部：返回 / 播出 -->
+      <div class="write-top">
+        <span class="back">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        </span>
+        <button class="broadcast">播出</button>
+      </div>
+
+      <!-- 顶部细波形（录音中） -->
+      <div class="rec-wave">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+
+      <div class="screen-scroll" style="padding-bottom:70px;">
+        <!-- 日期区 -->
+        <div class="date-block">
+          <div class="date">2026.07.25 / SAT</div>
+          <div class="sub">TAP TO MODIFY · 23:47</div>
+        </div>
+
+        <!-- 心情选择 -->
+        <div class="mood-row">
+          <div class="m sel">☀️</div>
+          <div class="m">🌧️</div>
+          <div class="m">🍵</div>
+          <div class="m">✨</div>
+          <div class="m">🌙</div>
+          <div class="m">🎧</div>
+        </div>
+
+        <!-- 标签 -->
+        <div class="tag-row">
+          <span class="tag-pill">生活 ×</span>
+          <span class="tag-pill">晨间 ×</span>
+          <span class="tag-add">+ 频道标签</span>
+        </div>
+
+        <!-- 正文区 -->
+        <div class="editor">
+          <textarea placeholder="今夜，按下录制..." rows="10">夜深了，回放今天：清晨咖啡、完成方案、窗外麻雀。频率调到安静，听见自己呼吸的底噪。把这一天录下来，存进深夜电台的某个频段。</textarea>
+        </div>
+      </div>
+
+      <!-- 底部状态条 -->
+      <div class="write-foot">
+        <span class="count">128 字 · 02:14</span>
+        <span class="rec"><span class="rdot"></span>REC</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       屏 3 · 归档页
+       ============================================================ -->
+  <section class="phone">
+    <div class="screen">
+      <!-- 状态栏 -->
+      <div class="statusbar">
+        <span>9:41</span>
+        <span class="right">
+          <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="2.5" height="4" rx="0.5" fill="currentColor"/><rect x="4" y="5" width="2.5" height="6" rx="0.5" fill="currentColor"/><rect x="8" y="3" width="2.5" height="8" rx="0.5" fill="currentColor"/><rect x="12" y="0" width="2.5" height="11" rx="0.5" fill="currentColor"/></svg>
+          <svg width="15" height="11" viewBox="0 0 15 11" fill="none"><path d="M7.5 2C10 2 12.2 3 13.8 4.6l1-1C12.9 1.7 10.3.5 7.5.5S2.1 1.7.2 3.6l1 1C2.8 3 5 2 7.5 2z" fill="currentColor"/><path d="M7.5 5c1.4 0 2.7.5 3.7 1.5l1-1C11 4.2 9.3 3.5 7.5 3.5S4 4.2 2.8 5.5l1 1C4.8 5.5 6.1 5 7.5 5z" fill="currentColor"/><circle cx="7.5" cy="9" r="1.5" fill="currentColor"/></svg>
+          <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="currentColor" fill="none"/><rect x="2" y="2" width="16" height="7" rx="1.2" fill="currentColor"/><rect x="21" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg>
+        </span>
+      </div>
+
+      <div class="screen-scroll">
+        <!-- 标题 -->
+        <div class="arc-head">
+          <h2>Archives</h2>
+          <div class="sub">142 RECORDINGS</div>
+        </div>
+
+        <!-- 顶部频段刻度装饰 -->
+        <div class="arc-scale">
+          <i style="height:6px"></i><i style="height:9px"></i><i style="height:5px"></i><i style="height:8px"></i><i style="height:12px"></i><i style="height:6px"></i><i style="height:10px"></i><i style="height:7px"></i><i style="height:9px"></i><i style="height:5px"></i><i style="height:12px"></i><i style="height:6px"></i><i style="height:8px"></i><i style="height:5px"></i><i style="height:10px"></i><i style="height:7px"></i><i style="height:9px"></i><i style="height:6px"></i><i style="height:12px"></i><i style="height:5px"></i><i style="height:8px"></i><i style="height:6px"></i><i style="height:10px"></i><i style="height:7px"></i>
+        </div>
+
+        <!-- 月份节目单 -->
+        <div class="month-list">
+          <!-- JUL 展开 -->
+          <div class="month-row active">
+            <div class="left">
+              <div class="m">JUL 2026</div>
+              <div class="t">18 tracks · on air</div>
+            </div>
+            <div class="right">
+              <span>01:24:30</span>
+              <span class="play">▶</span>
+            </div>
+          </div>
+          <div class="tracks">
+            <div class="tr"><span class="tts">23:47</span><span class="ttxt">夜深了，回放今天：清晨咖啡、完成方案...</span><span class="tmo">☀️</span></div>
+            <div class="tr"><span class="tts">22:15</span><span class="ttxt">雨声混进会议录音里。回家路上买了雏菊...</span><span class="tmo">🌧️</span></div>
+            <div class="tr"><span class="tts">01:30</span><span class="ttxt">重读《瓦尔登湖》。梭罗的频率很低很稳...</span><span class="tmo">🍵</span></div>
+            <div class="tr"><span class="tts">00:08</span><span class="ttxt">老友重逢，聊到凌晨。十年，我们调到了同一个频段...</span><span class="tmo">✨</span></div>
+          </div>
+
+          <div class="month-row">
+            <div class="left">
+              <div class="m">JUN 2026</div>
+              <div class="t">22 tracks</div>
+            </div>
+            <div class="right">
+              <span>01:38:12</span>
+              <span class="play">▶</span>
+            </div>
+          </div>
+
+          <div class="month-row">
+            <div class="left">
+              <div class="m">MAY 2026</div>
+              <div class="t">20 tracks</div>
+            </div>
+            <div class="right">
+              <span>01:29:45</span>
+              <span class="play">▶</span>
+            </div>
+          </div>
+
+          <div class="month-row">
+            <div class="left">
+              <div class="m">APR 2026</div>
+              <div class="t">17 tracks</div>
+            </div>
+            <div class="right">
+              <span>01:11:08</span>
+              <span class="play">▶</span>
+            </div>
+          </div>
+
+          <div class="month-row">
+            <div class="left">
+              <div class="m">MAR 2026</div>
+              <div class="t">15 tracks</div>
+            </div>
+            <div class="right">
+              <span>00:58:33</span>
+              <span class="play">▶</span>
+            </div>
+          </div>
+
+          <div class="month-row">
+            <div class="left">
+              <div class="m">FEB 2026</div>
+              <div class="t">14 tracks</div>
+            </div>
+            <div class="right">
+              <span>00:52:19</span>
+              <span class="play">▶</span>
+            </div>
+          </div>
+
+          <div class="month-row">
+            <div class="left">
+              <div class="m">JAN 2026</div>
+              <div class="t">18 tracks</div>
+            </div>
+            <div class="right">
+              <span>01:21:50</span>
+              <span class="play">▶</span>
+            </div>
+          </div>
+
+          <div class="month-row">
+            <div class="left">
+              <div class="m">DEC 2025</div>
+              <div class="t">18 tracks</div>
+            </div>
+            <div class="right">
+              <span>01:19:02</span>
+              <span class="play">▶</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部 Tab -->
+      <nav class="tabbar">
+        <div class="tab">
+          <span class="tab-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+          日记
+        </div>
+        <div class="tab active">
+          <span class="tab-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg></span>
+          归档
+        </div>
+        <div class="tab">
+          <span class="tab-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+          设置
+        </div>
+      </nav>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // 主题切换（仅样式切换）—— 任一切换按钮同步全部
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme', t);
+    document.querySelectorAll('[id^="themeToggle"]').forEach(b=>b.setAttribute('data-theme', t));
+  }
+  document.querySelectorAll('[id^="themeToggle"]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const cur = document.documentElement.getAttribute('data-theme');
+      applyTheme(cur === 'dark' ? 'light' : 'dark');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>方向四 · 植物园 Botanical Garden</title>
+<!-- 引入字体：Lora 衬线（标题）+ Nunito（正文） -->
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ========== CSS 变量：植物园配色 ========== */
+:root{
+  --sage:#87A96B;          /* 鼠尾草绿主色 */
+  --deep-leaf:#5C7A4A;     /* 深叶绿 */
+  --cream:#FAF6EE;         /* 奶油白底 */
+  --warm-beige:#F2EBDB;    /* 暖米 */
+  --ochre:#8B6F47;         /* 赭石点缀 */
+  --text-brown:#3D3528;    /* 文字深棕 */
+  --border-light:#E0D9C4;  /* 浅描边 */
+  --dark-bg:#2A2E22;       /* 深色模式底 */
+  --dark-text:#F2EBDB;     /* 深色模式文字 */
+  --desktop-bg:#E8E4D5;    /* 桌面端背景 */
+  --shadow-soft:0 8px 24px rgba(93,122,74,.12);
+  --shadow-card:0 4px 14px rgba(61,53,40,.08);
+}
+
+/* ========== Reset & 基础 ========== */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{font-family:'Nunito',-apple-system,sans-serif;color:var(--text-brown);}
+body{
+  background:var(--desktop-bg);
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(135,169,107,.08) 0, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(139,111,71,.06) 0, transparent 40%);
+  min-height:100vh;
+  padding:32px 20px 60px;
+}
+
+/* ========== 页面顶部说明 ========== */
+.page-header{
+  max-width:1280px;
+  margin:0 auto 36px;
+  text-align:center;
+}
+.page-header h1{
+  font-family:'Lora',serif;
+  font-size:30px;
+  font-weight:600;
+  color:var(--deep-leaf);
+  letter-spacing:.5px;
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+}
+.page-header h1 .leaf-deco{color:var(--sage);}
+.page-header p{
+  margin-top:10px;
+  font-size:14px;
+  color:var(--ochre);
+  font-weight:400;
+  line-height:1.7;
+}
+
+/* ========== 三屏并排容器 ========== */
+.screens-wrap{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:flex-start;
+  gap:36px;
+  max-width:1280px;
+  margin:0 auto;
+}
+.screen-col{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+}
+.screen-caption{
+  font-family:'Lora',serif;
+  font-size:14px;
+  color:var(--deep-leaf);
+  font-style:italic;
+  letter-spacing:.5px;
+}
+.screen-caption span{
+  display:inline-block;
+  padding:2px 10px;
+  background:var(--warm-beige);
+  border-radius:12px;
+  margin-right:6px;
+  font-style:normal;
+  font-family:'Nunito';
+  font-size:12px;
+  color:var(--ochre);
+}
+
+/* ========== 手机外框 ========== */
+.phone{
+  width:375px;
+  height:780px;
+  background:var(--cream);
+  border-radius:42px 38px 41px 39px / 38px 42px 39px 41px;
+  border:12px solid #1f1f1f;
+  box-shadow:0 20px 50px rgba(61,53,40,.28), inset 0 0 0 1px rgba(255,255,255,.05);
+  position:relative;
+  overflow:hidden;
+  font-family:'Nunito',sans-serif;
+}
+/* 状态栏 */
+.status-bar{
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 26px 0 28px;
+  font-family:'Nunito';
+  font-weight:600;
+  font-size:13px;
+  color:var(--text-brown);
+  position:relative;
+  z-index:5;
+}
+.status-bar .notch{
+  position:absolute;
+  top:0;left:50%;
+  transform:translateX(-50%);
+  width:120px;height:22px;
+  background:#1f1f1f;
+  border-bottom-left-radius:14px;
+  border-bottom-right-radius:14px;
+}
+.status-bar .icons{display:flex;gap:5px;align-items:center;}
+.status-bar .icons svg{width:16px;height:11px;}
+
+/* 屏幕内容容器 */
+.screen-body{
+  height:calc(780px - 36px);
+  position:relative;
+  overflow:hidden;
+}
+
+/* ========== 屏1：首页日记列表 ========== */
+.s1-topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 20px 12px;
+  background:var(--cream);
+  position:relative;
+  z-index:4;
+}
+.icon-btn{
+  width:38px;height:38px;
+  border-radius:50% 48% 52% 50%;
+  background:var(--warm-beige);
+  border:none;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--deep-leaf);
+  cursor:pointer;
+  transition:all .3s ease;
+}
+.icon-btn:hover{background:var(--sage);color:#fff;transform:rotate(-8deg);}
+.icon-btn svg{width:18px;height:18px;}
+.s1-title{
+  font-family:'Lora',serif;
+  font-size:22px;
+  font-weight:600;
+  color:var(--text-brown);
+  letter-spacing:1px;
+}
+
+/* 抽屉 + 遮罩 */
+.drawer-mask{
+  position:absolute;
+  inset:0;
+  background:rgba(61,53,40,.35);
+  z-index:6;
+  opacity:1;
+  pointer-events:none;
+}
+.drawer{
+  position:absolute;
+  top:0;left:0;
+  width:78%;
+  height:100%;
+  background:linear-gradient(160deg, var(--cream) 0%, var(--warm-beige) 100%);
+  z-index:7;
+  padding:50px 22px 24px;
+  box-shadow:6px 0 30px rgba(61,53,40,.2);
+  border-top-right-radius:0;
+  border-bottom-right-radius:24px;
+  transform:translateX(0);
+  overflow-y:auto;
+}
+.drawer::before{
+  content:"";
+  position:absolute;
+  top:14px;right:14px;
+  width:34px;height:4px;
+  background:var(--border-light);
+  border-radius:2px;
+}
+.drawer-section{margin-bottom:24px;}
+.drawer-label{
+  font-family:'Lora',serif;
+  font-size:13px;
+  color:var(--ochre);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:12px;
+  display:flex;align-items:center;gap:6px;
+}
+.drawer-label::after{
+  content:"";flex:1;height:1px;
+  background:var(--border-light);
+}
+.month-list{list-style:none;}
+.month-list li{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 8px;
+  border-radius:14px;
+  font-family:'Lora',serif;
+  font-size:15px;
+  color:var(--text-brown);
+  cursor:pointer;
+  transition:all .25s;
+}
+.month-list li:hover{background:rgba(135,169,107,.15);}
+.month-list li.active{
+  background:var(--sage);
+  color:#fff;
+  font-weight:600;
+}
+.month-list li .leaf-mini{width:14px;height:14px;opacity:.7;}
+.month-list li.active .leaf-mini{opacity:1;color:#fff;}
+.month-list li .count{
+  margin-left:auto;
+  font-family:'Nunito';
+  font-size:11px;
+  opacity:.6;
+}
+.tag-cloud{
+  display:flex;flex-wrap:wrap;gap:8px;
+}
+.tag-pill{
+  padding:5px 13px;
+  border-radius:14px 16px 13px 15px;
+  background:var(--cream);
+  border:1px solid var(--border-light);
+  font-size:12px;
+  color:var(--deep-leaf);
+  font-weight:500;
+  cursor:pointer;
+  transition:all .25s;
+}
+.tag-pill:hover,.tag-pill.active{
+  background:var(--sage);color:#fff;border-color:var(--sage);
+}
+.drawer-settings{
+  margin-top:30px;
+  padding-top:18px;
+  border-top:1px dashed var(--border-light);
+  display:flex;align-items:center;gap:10px;
+  color:var(--ochre);
+  font-size:13px;
+  cursor:pointer;
+}
+.drawer-settings svg{width:16px;height:16px;}
+
+/* 搜索框 */
+.search-bar{
+  margin:6px 20px 14px;
+  background:var(--cream);
+  border:1.5px solid var(--border-light);
+  border-radius:22px 20px 22px 20px;
+  padding:10px 16px;
+  display:flex;align-items:center;gap:10px;
+  position:relative;
+  z-index:4;
+}
+.search-bar svg{width:16px;height:16px;color:var(--sage);}
+.search-bar input{
+  border:none;background:transparent;outline:none;
+  font-family:'Nunito';font-size:13px;
+  color:var(--text-brown);
+  flex:1;
+}
+.search-bar input::placeholder{color:#b8b09a;}
+
+/* 日记卡片列表 */
+.diary-list{
+  padding:0 16px;
+  display:flex;flex-direction:column;gap:14px;
+  height:calc(100% - 220px);
+  overflow-y:auto;
+  position:relative;
+  z-index:3;
+}
+.diary-list::-webkit-scrollbar{width:0;}
+.diary-card{
+  background:var(--cream);
+  border-radius:22px 18px 24px 20px;
+  padding:16px 16px 14px;
+  box-shadow:var(--shadow-card);
+  border:1px solid rgba(224,217,196,.5);
+  position:relative;
+  transition:all .3s ease;
+}
+.diary-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 22px rgba(93,122,74,.16);
+}
+.diary-card .card-leaf{
+  position:absolute;
+  top:10px;right:14px;
+  width:18px;height:18px;
+  color:var(--sage);
+  opacity:.4;
+}
+.card-date{
+  font-family:'Lora',serif;
+  font-size:16px;
+  font-weight:600;
+  color:var(--text-brown);
+  margin-bottom:2px;
+}
+.card-week{
+  font-size:11px;
+  color:var(--ochre);
+  margin-bottom:8px;
+  letter-spacing:.5px;
+}
+.card-excerpt{
+  font-size:13px;
+  line-height:1.6;
+  color:var(--text-brown);
+  margin-bottom:10px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.card-footer{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+}
+.card-mood{font-size:14px;margin-right:2px;}
+.card-tag{
+  padding:2px 9px;
+  border-radius:10px 12px 11px 9px;
+  border:1px solid var(--sage);
+  color:var(--deep-leaf);
+  font-size:10px;
+  font-weight:600;
+  background:rgba(135,169,107,.06);
+}
+
+/* 悬浮加号 */
+.fab{
+  position:absolute;
+  bottom:78px;right:20px;
+  width:54px;height:54px;
+  border-radius:50% 48% 52% 50%;
+  background:linear-gradient(145deg, var(--sage), var(--deep-leaf));
+  border:none;
+  color:#fff;
+  font-size:26px;
+  font-weight:300;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 20px rgba(93,122,74,.4), 0 2px 0 rgba(255,255,255,.2) inset;
+  cursor:pointer;
+  z-index:5;
+  transition:transform .3s;
+}
+.fab:hover{transform:scale(1.06) rotate(90deg);}
+.fab::after{
+  content:"";
+  position:absolute;
+  bottom:-6px;left:8px;
+  width:30px;height:8px;
+  background:rgba(93,122,74,.25);
+  border-radius:50%;
+  filter:blur(4px);
+}
+
+/* 底部 Tab 栏 */
+.tab-bar{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:62px;
+  background:rgba(250,246,238,.95);
+  backdrop-filter:blur(10px);
+  border-top:1px solid var(--border-light);
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  padding-bottom:6px;
+  z-index:5;
+}
+.tab-item{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  color:#b8b09a;
+  font-size:10px;
+  cursor:pointer;
+  transition:color .25s;
+}
+.tab-item svg{width:20px;height:20px;}
+.tab-item.active{color:var(--deep-leaf);font-weight:600;}
+.tab-item.active svg{color:var(--sage);}
+
+/* ========== 屏2：写日记页 ========== */
+.s2-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px 12px;
+}
+.s2-title{
+  font-family:'Lora',serif;
+  font-size:16px;
+  font-weight:500;
+  color:var(--text-brown);
+  letter-spacing:1px;
+}
+.s2-save{
+  font-family:'Lora',serif;
+  font-size:14px;
+  color:#fff;
+  background:var(--sage);
+  border:none;
+  padding:7px 16px;
+  border-radius:14px 16px 13px 15px;
+  cursor:pointer;
+  font-weight:500;
+  box-shadow:0 3px 8px rgba(135,169,107,.35);
+}
+.s2-back svg{width:18px;height:18px;}
+
+.s2-date{
+  padding:8px 22px 16px;
+  display:flex;align-items:center;gap:10px;
+}
+.s2-date-text{
+  font-family:'Lora',serif;
+  font-size:22px;
+  font-weight:600;
+  color:var(--text-brown);
+}
+.s2-date-icon{
+  width:26px;height:26px;
+  border-radius:50%;
+  background:var(--warm-beige);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--sage);
+}
+.s2-date-icon svg{width:13px;height:13px;}
+
+/* 心情选择 */
+.mood-row{
+  padding:0 22px 14px;
+}
+.mood-row .row-label{
+  font-size:11px;color:var(--ochre);
+  letter-spacing:1px;margin-bottom:8px;
+  text-transform:uppercase;
+  font-family:'Lora',serif;
+}
+.mood-options{display:flex;gap:10px;}
+.mood{
+  width:38px;height:38px;
+  border-radius:50% 48% 52% 50%;
+  background:var(--cream);
+  border:1.5px solid var(--border-light);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+  cursor:pointer;
+  transition:all .25s;
+}
+.mood.active{
+  background:var(--sage);
+  border-color:var(--deep-leaf);
+  transform:scale(1.08);
+  box-shadow:0 4px 10px rgba(135,169,107,.4);
+}
+
+/* 标签 */
+.tag-row{padding:0 22px 16px;}
+.tag-input-wrap{
+  display:flex;flex-wrap:wrap;gap:6px;
+  align-items:center;
+  background:var(--cream);
+  border:1.5px dashed var(--border-light);
+  border-radius:16px 14px 16px 14px;
+  padding:8px 12px;
+  min-height:42px;
+}
+.tag-input-wrap .existing-tag{
+  padding:4px 10px;
+  border-radius:11px 13px 10px 12px;
+  background:rgba(135,169,107,.12);
+  border:1px solid var(--sage);
+  color:var(--deep-leaf);
+  font-size:11px;
+  font-weight:600;
+  display:flex;align-items:center;gap:4px;
+}
+.tag-input-wrap .existing-tag .x{font-size:13px;opacity:.6;}
+.tag-input-wrap input{
+  border:none;background:transparent;outline:none;
+  font-family:'Nunito';font-size:12px;
+  color:var(--text-brown);
+  flex:1;min-width:80px;
+}
+.tag-input-wrap input::placeholder{color:#b8b09a;}
+
+/* 正文区 */
+.editor-wrap{
+  margin:0 18px;
+  background:var(--cream);
+  border-radius:22px 18px 24px 20px;
+  border:1px solid var(--border-light);
+  padding:20px 18px;
+  height:240px;
+  position:relative;
+  overflow:hidden;
+  background-image:
+    radial-gradient(ellipse at 100% 0%, rgba(135,169,107,.08) 0, transparent 50%),
+    radial-gradient(ellipse at 0% 100%, rgba(139,111,71,.05) 0, transparent 50%);
+}
+.editor-vein{
+  position:absolute;
+  top:10px;right:14px;
+  width:60px;height:60px;
+  opacity:.12;
+  pointer-events:none;
+  color:var(--deep-leaf);
+}
+.editor-text{
+  width:100%;height:100%;
+  border:none;outline:none;resize:none;
+  background:transparent;
+  font-family:'Nunito';
+  font-size:14px;
+  line-height:1.8;
+  color:var(--text-brown);
+  position:relative;
+  z-index:2;
+}
+.editor-text::placeholder{color:#b8b09a;font-style:italic;}
+
+/* 底部工具栏 */
+.editor-toolbar{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  padding:10px 22px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--cream);
+  border-top:1px solid var(--border-light);
+}
+.editor-toolbar .tools{display:flex;gap:14px;}
+.editor-toolbar .tools svg{
+  width:18px;height:18px;color:var(--ochre);
+  cursor:pointer;
+}
+.editor-toolbar .count{
+  font-size:11px;color:var(--ochre);
+  font-family:'Lora',serif;
+}
+
+/* ========== 屏3：归档页 ========== */
+.s3-header{
+  padding:20px 22px 14px;
+  text-align:center;
+  position:relative;
+}
+.s3-rings{
+  position:absolute;
+  top:14px;right:18px;
+  width:50px;height:50px;
+  opacity:.25;
+}
+.s3-title{
+  font-family:'Lora',serif;
+  font-size:28px;
+  font-weight:600;
+  color:var(--text-brown);
+  letter-spacing:2px;
+  margin-bottom:4px;
+}
+.s3-sub{
+  font-size:12px;
+  color:var(--ochre);
+  letter-spacing:.5px;
+}
+.s3-sub b{color:var(--deep-leaf);font-weight:600;}
+
+.s3-list{
+  padding:8px 16px;
+  height:calc(100% - 110px);
+  overflow-y:auto;
+}
+.s3-list::-webkit-scrollbar{width:0;}
+
+.month-card{
+  background:var(--cream);
+  border-radius:22px 18px 24px 20px;
+  border:1px solid var(--border-light);
+  margin-bottom:10px;
+  overflow:hidden;
+  box-shadow:var(--shadow-card);
+}
+.month-card-head{
+  padding:14px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;
+}
+.month-card-head .m-left{
+  display:flex;align-items:center;gap:12px;
+}
+.month-card-head .m-num{
+  font-family:'Lora',serif;
+  font-size:24px;
+  font-weight:600;
+  color:var(--text-brown);
+}
+.month-card-head .m-meta{
+  font-size:11px;color:var(--ochre);
+}
+.month-card-head .m-right{
+  display:flex;align-items:center;gap:10px;
+}
+.month-card-head .m-count{
+  font-family:'Lora',serif;
+  font-size:13px;
+  color:var(--sage);
+  background:rgba(135,169,107,.12);
+  padding:3px 10px;
+  border-radius:10px 12px 11px 9px;
+}
+.month-card-head .arrow{
+  width:18px;height:18px;color:var(--ochre);
+  transition:transform .3s;
+}
+.month-card.open .arrow{transform:rotate(90deg);}
+
+/* 藤蔓分隔 */
+.vine-divider{
+  display:flex;align-items:center;justify-content:center;
+  padding:6px 0;
+  color:var(--sage);
+  opacity:.4;
+}
+.vine-divider svg{width:80px;height:14px;}
+
+/* 展开内容 */
+.month-card-body{
+  padding:0 18px 14px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.archive-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;
+  background:var(--warm-beige);
+  border-radius:14px 16px 13px 15px;
+  border-left:3px solid var(--sage);
+}
+.archive-item .a-date{
+  font-family:'Lora',serif;
+  font-size:13px;
+  color:var(--deep-leaf);
+  font-weight:600;
+  min-width:50px;
+}
+.archive-item .a-text{
+  flex:1;
+  font-size:12px;
+  color:var(--text-brown);
+  line-height:1.5;
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.archive-item .a-mood{font-size:14px;}
+.archive-item .a-leaf{width:12px;height:12px;color:var(--sage);opacity:.6;}
+
+/* ========== 深色模式 ========== */
+.phone.dark{
+  background:var(--dark-bg);
+  color:var(--dark-text);
+}
+.phone.dark .status-bar{color:var(--dark-text);}
+.phone.dark .s1-topbar,
+.phone.dark .s2-topbar,
+.phone.dark .editor-toolbar,
+.phone.dark .tab-bar{background:var(--dark-bg);}
+.phone.dark .s1-title,
+.phone.dark .s2-title,
+.phone.dark .s2-date-text,
+.phone.dark .month-card-head .m-num,
+.phone.dark .card-date{color:var(--dark-text);}
+.phone.dark .icon-btn{background:#3a3f2e;color:var(--sage);}
+.phone.dark .search-bar,
+.phone.dark .diary-card,
+.phone.dark .editor-wrap,
+.phone.dark .month-card{background:#33382a;border-color:#3a3f2e;}
+.phone.dark .card-excerpt,
+.phone.dark .card-week,
+.phone.dark .s3-sub,
+.phone.dark .mood-row .row-label{color:#c7bea6;}
+.phone.dark .drawer{
+  background:linear-gradient(160deg,#2f3326 0%,#3a3f2e 100%);
+  color:var(--dark-text);
+}
+.phone.dark .month-list li{color:var(--dark-text);}
+.phone.dark .tag-pill,
+.phone.dark .tag-input-wrap{background:#33382a;border-color:#3a3f2e;color:var(--dark-text);}
+.phone.dark .archive-item{background:#33382a;}
+.phone.dark .editor-text{color:var(--dark-text);}
+.phone.dark .editor-text::placeholder{color:#7a7560;}
+.phone.dark .card-tag{background:rgba(135,169,107,.15);border-color:var(--sage);color:var(--sage);}
+
+/* ========== 响应式 ========== */
+@media (max-width:1100px){
+  .screens-wrap{flex-direction:column;align-items:center;}
+}
+@media (max-width:420px){
+  body{padding:20px 8px 40px;}
+  .phone{transform:scale(.95);transform-origin:top center;}
+  .page-header h1{font-size:24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== 页面顶部说明 ========== -->
+<div class="page-header">
+  <h1>
+    <svg class="leaf-deco" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+      <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/>
+    </svg>
+    方向四 · 植物园 Botanical Garden
+  </h1>
+  <p>四个设计方向之一 · 自然清新 · 圆角有机形状 · 植物点缀 · 抽屉式侧滑导航交互</p>
+</div>
+
+<!-- ========== 三屏并排展示 ========== -->
+<div class="screens-wrap">
+
+  <!-- ========== 屏1：首页日记列表 ========== -->
+  <div class="screen-col">
+    <div class="screen-caption"><span>屏 1</span>首页 · 我的花园</div>
+    <div class="phone" id="phone1">
+      <!-- 状态栏 -->
+      <div class="status-bar">
+        <span class="notch"></span>
+        <span>9:41</span>
+        <span class="icons">
+          <svg viewBox="0 0 18 12" fill="currentColor"><path d="M1 9h2v2H1zm4-2h2v4H5zm4-2h2v6H9zm4-2h2v8h-2z"/></svg>
+          <svg viewBox="0 0 18 12" fill="currentColor"><path d="M9 0C5.5 0 2.4 1.3 0 3.5l9 8.5 9-8.5C15.6 1.3 12.5 0 9 0z" opacity=".3"/><path d="M9 3c-2 0-3.9.8-5.3 2L9 10.2 14.3 5C12.9 3.8 11 3 9 3z"/></svg>
+          <svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="2" width="20" height="8" rx="2"/><rect x="3" y="4" width="14" height="4" rx="1" fill="currentColor"/><rect x="22" y="4.5" width="1.5" height="3" rx=".5" fill="currentColor"/></svg>
+        </span>
+      </div>
+
+      <div class="screen-body">
+        <!-- 抽屉遮罩 -->
+        <div class="drawer-mask"></div>
+        <!-- 抽屉（半拉出展示） -->
+        <div class="drawer">
+          <div class="drawer-section">
+            <div class="drawer-label">月份</div>
+            <ul class="month-list">
+              <li class="active">
+                <svg class="leaf-mini" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+                7月<span class="count">12 篇</span>
+              </li>
+              <li>
+                <svg class="leaf-mini" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+                6月<span class="count">18 篇</span>
+              </li>
+              <li>
+                <svg class="leaf-mini" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+                5月<span class="count">15 篇</span>
+              </li>
+              <li>
+                <svg class="leaf-mini" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+                4月<span class="count">20 篇</span>
+              </li>
+            </ul>
+          </div>
+          <div class="drawer-section">
+            <div class="drawer-label">标签</div>
+            <div class="tag-cloud">
+              <span class="tag-pill active">生活</span>
+              <span class="tag-pill">工作</span>
+              <span class="tag-pill">读书</span>
+              <span class="tag-pill">相聚</span>
+              <span class="tag-pill">独处</span>
+              <span class="tag-pill">晨间</span>
+            </div>
+          </div>
+          <div class="drawer-settings">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94 0 .31.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            设置与偏好
+          </div>
+        </div>
+
+        <!-- 顶部栏 -->
+        <div class="s1-topbar">
+          <button class="icon-btn" title="菜单">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+          </button>
+          <div class="s1-title">我的花园</div>
+          <button class="icon-btn" onclick="toggleDark(1)" title="切换深色">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+          </button>
+        </div>
+
+        <!-- 搜索框 -->
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+          <input type="text" placeholder="在花园里寻找...">
+        </div>
+
+        <!-- 日记列表 -->
+        <div class="diary-list">
+          <div class="diary-card">
+            <svg class="card-leaf" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+            <div class="card-date">7月25日</div>
+            <div class="card-week">SATURDAY · 周六</div>
+            <div class="card-excerpt">清晨咖啡香里完成方案。窗外麻雀来了又走，像花园里的访客……</div>
+            <div class="card-footer">
+              <span class="card-mood">☀️</span>
+              <span class="card-tag">生活</span>
+              <span class="card-tag">晨间</span>
+            </div>
+          </div>
+
+          <div class="diary-card">
+            <svg class="card-leaf" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+            <div class="card-date">7月23日</div>
+            <div class="card-week">THURSDAY · 周四</div>
+            <div class="card-excerpt">雨下了一整天。回家路上买了束雏菊，养在窗台的陶罐里……</div>
+            <div class="card-footer">
+              <span class="card-mood">🌧️</span>
+              <span class="card-tag">工作</span>
+            </div>
+          </div>
+
+          <div class="diary-card">
+            <svg class="card-leaf" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+            <div class="card-date">7月20日</div>
+            <div class="card-week">MONDAY · 周一</div>
+            <div class="card-excerpt">重读《瓦尔登湖》。梭罗在湖边种豆，我在窗前种字……</div>
+            <div class="card-footer">
+              <span class="card-mood">🍵</span>
+              <span class="card-tag">读书</span>
+              <span class="card-tag">独处</span>
+            </div>
+          </div>
+
+          <div class="diary-card">
+            <svg class="card-leaf" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+            <div class="card-date">7月18日</div>
+            <div class="card-week">SATURDAY · 周六</div>
+            <div class="card-excerpt">老友重逢。十年了，我们像两棵老树，根在地下早已相连……</div>
+            <div class="card-footer">
+              <span class="card-mood">✨</span>
+              <span class="card-tag">相聚</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 悬浮加号 -->
+        <button class="fab">+</button>
+
+        <!-- 底部 Tab -->
+        <div class="tab-bar">
+          <div class="tab-item active">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+            日记
+          </div>
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+            归档
+          </div>
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94 0 .31.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            设置
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 屏2：写日记页 ========== -->
+  <div class="screen-col">
+    <div class="screen-caption"><span>屏 2</span>写日记 · 新芽</div>
+    <div class="phone" id="phone2">
+      <div class="status-bar">
+        <span class="notch"></span>
+        <span>9:41</span>
+        <span class="icons">
+          <svg viewBox="0 0 18 12" fill="currentColor"><path d="M1 9h2v2H1zm4-2h2v4H5zm4-2h2v6H9zm4-2h2v8h-2z"/></svg>
+          <svg viewBox="0 0 18 12" fill="currentColor"><path d="M9 0C5.5 0 2.4 1.3 0 3.5l9 8.5 9-8.5C15.6 1.3 12.5 0 9 0z" opacity=".3"/><path d="M9 3c-2 0-3.9.8-5.3 2L9 10.2 14.3 5C12.9 3.8 11 3 9 3z"/></svg>
+          <svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="2" width="20" height="8" rx="2"/><rect x="3" y="4" width="14" height="4" rx="1" fill="currentColor"/><rect x="22" y="4.5" width="1.5" height="3" rx=".5" fill="currentColor"/></svg>
+        </span>
+      </div>
+
+      <div class="screen-body">
+        <!-- 顶部栏 -->
+        <div class="s2-topbar">
+          <button class="icon-btn s2-back" title="返回">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z" transform="scale(-1,1) translate(-24,0)"/></svg>
+          </button>
+          <div class="s2-title">新芽</div>
+          <button class="s2-save">种下</button>
+        </div>
+
+        <!-- 日期区 -->
+        <div class="s2-date">
+          <div class="s2-date-text">7月25日 星期六</div>
+          <div class="s2-date-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM7 12h5v5H7z"/></svg>
+          </div>
+        </div>
+
+        <!-- 心情选择 -->
+        <div class="mood-row">
+          <div class="row-label">今日心情</div>
+          <div class="mood-options">
+            <div class="mood active">☀️</div>
+            <div class="mood">🌤️</div>
+            <div class="mood">🌧️</div>
+            <div class="mood">🍵</div>
+            <div class="mood">✨</div>
+            <div class="mood">🌙</div>
+          </div>
+        </div>
+
+        <!-- 标签 -->
+        <div class="tag-row">
+          <div class="tag-input-wrap">
+            <span class="existing-tag">生活 <span class="x">×</span></span>
+            <span class="existing-tag">晨间 <span class="x">×</span></span>
+            <input type="text" placeholder="+ 播下标签">
+          </div>
+        </div>
+
+        <!-- 正文区 -->
+        <div class="editor-wrap">
+          <svg class="editor-vein" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+          <textarea class="editor-text" placeholder="今天，种下什么..."></textarea>
+        </div>
+
+        <!-- 底部工具栏 -->
+        <div class="editor-toolbar">
+          <div class="count">128 字</div>
+          <div class="tools">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 4H4v16h16v-6"/><path d="M14 4h6v6"/><path d="M20 4L10 14"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 17v2h2l11-11-2-2L5 17z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 4l-4 4 2 2 4-4-2-2zM4 18l8-8 2 2-8 8H4v-2z"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 屏3：归档页 ========== -->
+  <div class="screen-col">
+    <div class="screen-caption"><span>屏 3</span>归档 · 年轮</div>
+    <div class="phone" id="phone3">
+      <div class="status-bar">
+        <span class="notch"></span>
+        <span>9:41</span>
+        <span class="icons">
+          <svg viewBox="0 0 18 12" fill="currentColor"><path d="M1 9h2v2H1zm4-2h2v4H5zm4-2h2v6H9zm4-2h2v8h-2z"/></svg>
+          <svg viewBox="0 0 18 12" fill="currentColor"><path d="M9 0C5.5 0 2.4 1.3 0 3.5l9 8.5 9-8.5C15.6 1.3 12.5 0 9 0z" opacity=".3"/><path d="M9 3c-2 0-3.9.8-5.3 2L9 10.2 14.3 5C12.9 3.8 11 3 9 3z"/></svg>
+          <svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="2" width="20" height="8" rx="2"/><rect x="3" y="4" width="14" height="4" rx="1" fill="currentColor"/><rect x="22" y="4.5" width="1.5" height="3" rx=".5" fill="currentColor"/></svg>
+        </span>
+      </div>
+
+      <div class="screen-body">
+        <!-- 顶部标题区 -->
+        <div class="s3-header">
+          <!-- 年轮同心圆装饰 -->
+          <svg class="s3-rings" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.2">
+            <circle cx="30" cy="30" r="28" stroke="#5C7A4A"/>
+            <circle cx="30" cy="30" r="22" stroke="#87A96B"/>
+            <circle cx="30" cy="30" r="16" stroke="#8B6F47"/>
+            <circle cx="30" cy="30" r="10" stroke="#87A96B"/>
+            <circle cx="30" cy="30" r="4" stroke="#5C7A4A"/>
+          </svg>
+          <div class="s3-title">年轮</div>
+          <div class="s3-sub"><b>142</b> 篇 · 时光的年轮</div>
+        </div>
+
+        <!-- 月份折叠列表 -->
+        <div class="s3-list">
+          <!-- 7月：展开 -->
+          <div class="month-card open">
+            <div class="month-card-head">
+              <div class="m-left">
+                <div class="m-num">7月</div>
+                <div class="m-meta">盛夏 · 蝉鸣</div>
+              </div>
+              <div class="m-right">
+                <span class="m-count">12 篇</span>
+                <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg>
+              </div>
+            </div>
+            <div class="month-card-body">
+              <div class="archive-item">
+                <div class="a-date">7.25</div>
+                <div class="a-text">清晨咖啡香里完成方案，窗外麻雀来了又走……</div>
+                <span class="a-mood">☀️</span>
+                <svg class="a-leaf" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+              </div>
+              <div class="archive-item">
+                <div class="a-date">7.23</div>
+                <div class="a-text">雨下了一整天，回家路上买了束雏菊……</div>
+                <span class="a-mood">🌧️</span>
+                <svg class="a-leaf" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+              </div>
+              <div class="archive-item">
+                <div class="a-date">7.20</div>
+                <div class="a-text">重读《瓦尔登湖》，梭罗在湖边种豆……</div>
+                <span class="a-mood">🍵</span>
+                <svg class="a-leaf" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+              </div>
+              <div class="archive-item">
+                <div class="a-date">7.18</div>
+                <div class="a-text">老友重逢，十年了我们像两棵老树……</div>
+                <span class="a-mood">✨</span>
+                <svg class="a-leaf" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C3 8 8 4 17 8z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- 藤蔓分隔 -->
+          <div class="vine-divider">
+            <svg viewBox="0 0 80 14" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M2 7 Q15 2, 28 7 T54 7 T78 7"/>
+              <circle cx="28" cy="7" r="1.5" fill="currentColor"/>
+              <circle cx="54" cy="7" r="1.5" fill="currentColor"/>
+            </svg>
+          </div>
+
+          <!-- 6月：折叠 -->
+          <div class="month-card">
+            <div class="month-card-head">
+              <div class="m-left">
+                <div class="m-num">6月</div>
+                <div class="m-meta">梅雨 · 蝶舞</div>
+              </div>
+              <div class="m-right">
+                <span class="m-count">18 篇</span>
+                <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5月：折叠 -->
+          <div class="month-card">
+            <div class="month-card-head">
+              <div class="m-left">
+                <div class="m-num">5月</div>
+                <div class="m-meta">初夏 · 花开</div>
+              </div>
+              <div class="m-right">
+                <span class="m-count">15 篇</span>
+                <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4月：折叠 -->
+          <div class="month-card">
+            <div class="month-card-head">
+              <div class="m-left">
+                <div class="m-num">4月</div>
+                <div class="m-meta">暮春 · 落英</div>
+              </div>
+              <div class="m-right">
+                <span class="m-count">20 篇</span>
+                <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3月：折叠 -->
+          <div class="month-card">
+            <div class="month-card-head">
+              <div class="m-left">
+                <div class="m-num">3月</div>
+                <div class="m-meta">早春 · 抽芽</div>
+              </div>
+              <div class="m-right">
+                <span class="m-count">17 篇</span>
+                <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ========== 深色模式切换（仅样式切换） ========== */
+function toggleDark(id){
+  const phone = document.getElementById('phone'+id);
+  phone.classList.toggle('dark');
+}
+</script>
+
+</body>
+</html>

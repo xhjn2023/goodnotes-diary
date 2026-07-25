@@ -1,0 +1,79 @@
+<!-- pages/home/home.wxml -->
+<view class="container theme-{{theme}} safe-bottom">
+  <!-- 顶部标题栏 -->
+  <view class="topbar">
+    <view class="title-wrap">
+      <text class="title serif">日记本</text>
+      <text class="subtitle">共 {{totalCount}} 篇</text>
+    </view>
+    <view class="theme-btn" bindtap="onToggleTheme">
+      <text class="theme-icon">{{theme === 'light' ? '☾' : '☀'}}</text>
+    </view>
+  </view>
+
+  <!-- 横向时间线 -->
+  <scroll-view class="timeline" scroll-x enable-flex>
+    <view
+      wx:for="{{timeline}}"
+      wx:key="key"
+      class="tl-item {{item.active ? 'active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="onPickMonth">
+      <text class="tl-label">{{item.label}}</text>
+      <view class="tl-underline"></view>
+    </view>
+  </scroll-view>
+
+  <!-- 搜索框 -->
+  <view class="search">
+    <text class="search-icon">⌕</text>
+    <input
+      class="search-input"
+      placeholder="翻阅记忆..."
+      placeholder-class="ph"
+      value="{{keyword}}"
+      bindinput="onSearch"
+      confirm-type="search" />
+    <text wx:if="{{keyword}}" class="search-clear" bindtap="onClearSearch">×</text>
+  </view>
+
+  <!-- 日记列表 -->
+  <view class="list" wx:if="{{diaries.length}}">
+    <diary-card
+      wx:for="{{diaries}}"
+      wx:key="id"
+      diary="{{item}}"
+      theme="{{theme}}"
+      bind:tap="onCardTap"
+      bind:delete="onCardDelete" />
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:elif="{{!keyword}}">
+    <text class="empty-icon">✎</text>
+    <text class="empty-text">还没有日记</text>
+    <text class="empty-hint">点击右下角 + 写下第一篇</text>
+  </view>
+  <view class="empty" wx:else>
+    <text class="empty-icon">⌕</text>
+    <text class="empty-text">未找到相关日记</text>
+    <text class="empty-hint">换个关键词试试</text>
+  </view>
+
+  <!-- 悬浮新建按钮 -->
+  <view class="fab" bindtap="onNew">
+    <text class="fab-plus">+</text>
+  </view>
+
+  <!-- 底部导航 -->
+  <view class="tabbar">
+    <view class="tab active">
+      <text class="tab-icon">✎</text>
+      <text class="tab-label">日记</text>
+    </view>
+    <view class="tab" bindtap="onGotoArchive">
+      <text class="tab-icon">▤</text>
+      <text class="tab-label">归档</text>
+    </view>
+  </view>
+</view>
