@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>比亚迪秦MAX怎么选 - 配置对比图</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(180deg, #f5f7fa 0%, #e8ecf1 100%);
+    min-height: 100vh;
+    padding: 20px 0;
+  }
+  .container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .header {
+    text-align: center;
+    padding: 30px 20px 20px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border-radius: 20px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(230, 57, 70, 0.1) 0%, transparent 50%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+  }
+  .logo-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .logo-badge {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 28px;
+    font-weight: 900;
+    box-shadow: 0 8px 24px rgba(230, 57, 70, 0.4);
+  }
+  .header h1 {
+    font-size: 56px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 4px;
+    position: relative;
+    z-index: 1;
+  }
+  .header h1 span {
+    background: linear-gradient(135deg, #e63946 0%, #ffb703 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle {
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 8px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+  }
+  .specs-bar {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 25px;
+    padding: 20px 40px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+  }
+  .spec-item {
+    text-align: center;
+  }
+  .spec-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .spec-value small {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    margin-left: 3px;
+  }
+  .spec-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 4px;
+  }
+  .battery-info {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 18px;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+  }
+  .battery-tag {
+    padding: 8px 20px;
+    background: rgba(255, 183, 3, 0.15);
+    border: 1px solid rgba(255, 183, 3, 0.3);
+    border-radius: 10px;
+    color: #ffb703;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 40px 0 20px;
+    padding-left: 4px;
+  }
+  .section-title .icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: white;
+    font-weight: 800;
+  }
+  .section-title.dmi .icon {
+    background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%);
+  }
+  .section-title.ev .icon {
+    background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+  }
+  .section-title h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1a2e;
+  }
+  .section-title .tag-count {
+    padding: 4px 14px;
+    background: #e8ecf1;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #666;
+    font-weight: 600;
+  }
+  .cards-row {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    scroll-snap-type: x mandatory;
+  }
+  .cards-row::-webkit-scrollbar {
+    height: 8px;
+  }
+  .cards-row::-webkit-scrollbar-track {
+    background: #e8ecf1;
+    border-radius: 4px;
+  }
+  .cards-row::-webkit-scrollbar-thumb {
+    background: #c1c9d2;
+    border-radius: 4px;
+  }
+  .cards-row::-webkit-scrollbar-thumb:hover {
+    background: #a8b0b9;
+  }
+  .card {
+    flex: 0 0 300px;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    scroll-snap-align: start;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+  }
+  .card-header {
+    padding: 24px 20px 16px;
+    position: relative;
+    color: white;
+  }
+  .card.leading .card-header {
+    background: linear-gradient(135deg, #52b788 0%, #2d6a4f 100%);
+  }
+  .card.surpass .card-header {
+    background: linear-gradient(135deg, #f4a261 0%, #e76f51 100%);
+  }
+  .card.excellent .card-header {
+    background: linear-gradient(135deg, #9d4edd 0%, #5a189a 100%);
+  }
+  .card.excellent-top .card-header {
+    background: linear-gradient(135deg, #e63946 0%, #9d0208 100%);
+  }
+  .type-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .card-version {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .card-price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+  .card-price .num {
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1;
+  }
+  .card-price .unit {
+    font-size: 16px;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+  .battery-line {
+    margin-top: 10px;
+    font-size: 13px;
+    opacity: 0.9;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .battery-line span {
+    white-space: nowrap;
+  }
+  .highlight-box {
+    margin: 16px 16px 0;
+    padding: 14px;
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+    border-radius: 12px;
+    border-left: 4px solid #ffb703;
+  }
+  .highlight-box.ev-highlight {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border-left-color: #1976d2;
+  }
+  .highlight-box.excellent-highlight {
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+    border-left-color: #7b1fa2;
+  }
+  .highlight-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #e65100;
+    margin-bottom: 6px;
+  }
+  .highlight-box.ev-highlight .highlight-title {
+    color: #0d47a1;
+  }
+  .highlight-box.excellent-highlight .highlight-title {
+    color: #4a148c;
+  }
+  .highlight-list {
+    font-size: 12.5px;
+    color: #444;
+    line-height: 1.8;
+  }
+  .highlight-list li {
+    list-style: none;
+    padding-left: 16px;
+    position: relative;
+  }
+  .highlight-list li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: #ffb703;
+    font-size: 10px;
+    top: 2px;
+  }
+  .highlight-box.ev-highlight .highlight-list li::before {
+    color: #1976d2;
+  }
+  .highlight-box.excellent-highlight .highlight-list li::before {
+    color: #7b1fa2;
+  }
+  .config-section {
+    margin: 14px 16px 0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .config-section-title {
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card.leading .config-section-title {
+    background: linear-gradient(90deg, #52b788, #40916c);
+  }
+  .card.surpass .config-section-title {
+    background: linear-gradient(90deg, #f4a261, #e76f51);
+  }
+  .card.excellent .config-section-title,
+  .card.excellent-top .config-section-title {
+    background: linear-gradient(90deg, #9d4edd, #7b2cbf);
+  }
+  .config-list {
+    background: #f8f9fb;
+    padding: 12px 14px;
+  }
+  .config-list li {
+    list-style: none;
+    font-size: 12.5px;
+    color: #333;
+    line-height: 1.9;
+    padding-left: 14px;
+    position: relative;
+  }
+  .config-list li::before {
+    content: '·';
+    position: absolute;
+    left: 2px;
+    color: #999;
+    font-weight: bold;
+  }
+  .config-list li.new {
+    color: #d00000;
+    font-weight: 600;
+  }
+  .config-list li.new::before {
+    content: '▲';
+    color: #d00000;
+    font-size: 9px;
+    top: 4px;
+  }
+  .card-footer {
+    margin: auto 16px 16px;
+    padding-top: 14px;
+    border-top: 1px dashed #e0e0e0;
+  }
+  .recommend-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .stars {
+    color: #ffb703;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+  .recommend-text {
+    font-size: 11px;
+    color: #888;
+    font-weight: 500;
+  }
+  .tag-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .mini-tag {
+    padding: 3px 10px;
+    background: #e8ecf1;
+    border-radius: 20px;
+    font-size: 11px;
+    color: #555;
+    font-weight: 600;
+  }
+  .mini-tag.green {
+    background: #d8f3dc;
+    color: #2d6a4f;
+  }
+  .mini-tag.orange {
+    background: #ffe8cc;
+    color: #d9480f;
+  }
+  .mini-tag.purple {
+    background: #f3d9fa;
+    color: #862e9c;
+  }
+  .mini-tag.blue {
+    background: #d0ebff;
+    color: #1864ab;
+  }
+  .summary-bar {
+    margin-top: 40px;
+    padding: 24px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 20px;
+    color: white;
+  }
+  .summary-bar h3 {
+    font-size: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .summary-item {
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    border-left: 3px solid;
+  }
+  .summary-item.s1 { border-color: #52b788; }
+  .summary-item.s2 { border-color: #f4a261; }
+  .summary-item.s3 { border-color: #4361ee; }
+  .summary-item.s4 { border-color: #e63946; }
+  .summary-item .s-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .summary-item .s-desc {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.7;
+  }
+  .upgrade-tip {
+    margin-top: 20px;
+    padding: 14px 18px;
+    background: rgba(255, 183, 3, 0.1);
+    border: 1px dashed rgba(255, 183, 3, 0.4);
+    border-radius: 12px;
+    font-size: 13px;
+    color: #ffb703;
+    line-height: 1.8;
+  }
+  .upgrade-tip b {
+    color: #fff;
+  }
+  .footer-note {
+    text-align: center;
+    margin-top: 30px;
+    padding: 16px;
+    color: #888;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 顶部标题区 -->
+  <div class="header">
+    <div class="logo-row">
+      <div class="logo-badge">秦</div>
+    </div>
+    <h1>比亚迪 <span>秦MAX</span> 一图看懂</h1>
+    <div class="subtitle">秦家族闪充超大杯 · 9款配置怎么选</div>
+    <div class="specs-bar">
+      <div class="spec-item">
+        <div class="spec-value">4866<small>mm</small></div>
+        <div class="spec-label">车长</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-value">1880<small>mm</small></div>
+        <div class="spec-label">车宽</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-value">1495<small>mm</small></div>
+        <div class="spec-label">车高</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-value">2820<small>mm</small></div>
+        <div class="spec-label">轴距</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-value">B<small>级</small></div>
+        <div class="spec-label">定位</div>
+      </div>
+    </div>
+    <div class="battery-info">
+      <div class="battery-tag">🔋 第二代刀片电池</div>
+      <div class="battery-tag">⚡ EV闪充：10%-70%仅5分钟</div>
+      <div class="battery-tag">🛡️ 三电终身质保</div>
+      <div class="battery-tag">🚗 可选天神之眼B激光智驾</div>
+    </div>
+  </div>
+
+  <!-- DM-i插混版 -->
+  <div class="section-title dmi">
+    <div class="icon">DM</div>
+    <h2>秦MAX DM-i 插混版</h2>
+    <span class="tag-count">4款车型 · 前驱 · 第五代DM技术</span>
+  </div>
+  <div class="cards-row">
+
+    <!-- 230KM领先型 -->
+    <div class="card leading">
+      <div class="card-header">
+        <span class="type-tag">🚗 插混版</span>
+        <div class="card-version">230KM 领先型</div>
+        <div class="card-price"><span class="num">9.99</span><span class="unit">万元</span></div>
+        <div class="battery-line">
+          <span>25.29kWh电池</span>
+          <span>·</span>
+          <span>纯电230km / 综合2370km</span>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <div class="highlight-title">💡 核心标配 · 入门即高配</div>
+        <ul class="highlight-list">
+          <li>1.5L+175kW电机 · 零百7.5s</li>
+          <li>亏电油耗2.59L/100km</li>
+          <li>8.8"仪表 + 12.8"中控屏</li>
+          <li>DiLink 100 + 5G网络</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">⚡ 三电系统</div>
+        <ul class="config-list">
+          <li>175kW前置前驱电机</li>
+          <li>1.5L自然吸气发动机 74kW</li>
+          <li>磷酸铁锂刀片电池</li>
+          <li>支持74kW直流快充</li>
+          <li>6kW移动电站外放电</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">🛡️ 安全与舒适</div>
+        <ul class="config-list">
+          <li>360°全景影像 + 透明底盘</li>
+          <li>6安全气囊 + TBC爆胎稳行</li>
+          <li>皮质座椅 · 主驾6向电动</li>
+          <li>全LED大灯 · 外后视镜加热</li>
+          <li>热泵空调 · 哨兵模式</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div class="recommend-bar">
+          <div class="stars">★★★☆☆</div>
+          <div class="recommend-text">极致性价比首选</div>
+        </div>
+        <div class="tag-row">
+          <span class="mini-tag green">网约车神车</span>
+          <span class="mini-tag green">代步通勤</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 230KM超越型 -->
+    <div class="card surpass">
+      <div class="card-header">
+        <span class="type-tag">🚗 插混版</span>
+        <div class="card-version">230KM 超越型</div>
+        <div class="card-price"><span class="num">10.99</span><span class="unit">万元</span></div>
+        <div class="battery-line">
+          <span>25.29kWh电池</span>
+          <span>·</span>
+          <span>纯电230km / 综合2370km</span>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <div class="highlight-title">🔥 +1万升级 · 核心痛点全补齐</div>
+        <ul class="highlight-list">
+          <li class="new">天神之眼C · 高速领航辅助</li>
+          <li class="new">ACC + 拨杆变道 + AEB</li>
+          <li class="new">主副驾座椅通风+加热</li>
+          <li class="new">副驾4向电动 · Face ID</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">🧠 智能驾驶（新增）</div>
+        <ul class="config-list">
+          <li class="new">天神之眼C纯视觉智驾</li>
+          <li class="new">HNOA高速领航辅助</li>
+          <li class="new">ACC自适应巡航</li>
+          <li class="new">拨杆变道 · 盲区监测</li>
+          <li class="new">全场景自动泊车 AVP/APA</li>
+          <li class="new">开门预警 · 后向碰撞</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">🛋️ 舒适座舱（升级）</div>
+        <ul class="config-list">
+          <li class="new">主副驾座椅通风+加热</li>
+          <li class="new">副驾4向电动调节</li>
+          <li class="new">Face ID人脸识别启动</li>
+          <li class="new">车载ETC · 全向记录仪</li>
+          <li class="new">电容方向盘 + 智驾拨片</li>
+          <li class="new">雨量感应 · 后视镜折叠</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div class="recommend-bar">
+          <div class="stars">★★★★☆</div>
+          <div class="recommend-text">家用通勤黄金档</div>
+        </div>
+        <div class="tag-row">
+          <span class="mini-tag orange">推荐首选</span>
+          <span class="mini-tag blue">高速通勤</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 320KM超越型 -->
+    <div class="card surpass">
+      <div class="card-header">
+        <span class="type-tag">🚗 插混版</span>
+        <div class="card-version">320KM 超越型</div>
+        <div class="card-price"><span class="num">11.99</span><span class="unit">万元</span></div>
+        <div class="battery-line">
+          <span>34.28kWh大电池</span>
+          <span>·</span>
+          <span>纯电320km / 综合2370km</span>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <div class="highlight-title">🔥 +1万升级 · 续航跃升</div>
+        <ul class="highlight-list">
+          <li class="new">电池升级到34.28kWh</li>
+          <li class="new">纯电续航320km ↑90km</li>
+          <li>天神之眼C高速领航全套</li>
+          <li>主副驾通风加热 · 副驾电动</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">⚡ 三电升级</div>
+        <ul class="config-list">
+          <li class="new">电池容量 +8.99kWh</li>
+          <li class="new">纯电续航提升至320km</li>
+          <li>1.5L+175kW动力总成</li>
+          <li>亏电油耗2.59L/100km</li>
+          <li>综合续航2370km</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">🧠 智驾座舱（同超越型）</div>
+        <ul class="config-list">
+          <li>天神之眼C · 高速领航</li>
+          <li>ACC/拨杆变道/自动泊车</li>
+          <li>Face ID · 车载ETC</li>
+          <li>主副驾通风+加热</li>
+          <li>副驾4向电动</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div class="recommend-bar">
+          <div class="stars">★★★★☆</div>
+          <div class="recommend-text">长纯电通勤党</div>
+        </div>
+        <div class="tag-row">
+          <span class="mini-tag orange">一周不加油</span>
+          <span class="mini-tag blue">有家充推荐</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 320KM卓越型 -->
+    <div class="card excellent">
+      <div class="card-header">
+        <span class="type-tag">🚗 插混版 · 顶配</span>
+        <div class="card-version">320KM 卓越型</div>
+        <div class="card-price"><span class="num">12.99</span><span class="unit">万元</span></div>
+        <div class="battery-line">
+          <span>34.28kWh大电池</span>
+          <span>·</span>
+          <span>纯电320km / 综合2370km</span>
+        </div>
+      </div>
+      <div class="highlight-box excellent-highlight">
+        <div class="highlight-title">👑 +1万拉满 · 旗舰享受</div>
+        <ul class="highlight-list">
+          <li class="new">云辇-C智能阻尼悬架</li>
+          <li class="new">15.6"大屏 + W-HUD抬头显示</li>
+          <li class="new">主副驾10点按摩 + 记忆</li>
+          <li class="new">全景天幕 · 18"轮毂 · 无线充</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">🏁 底盘与外观（升级）</div>
+        <ul class="config-list">
+          <li class="new">云辇-C智能阻尼车身控制</li>
+          <li class="new">路面预瞄 · 舒适控制</li>
+          <li class="new">18寸双色铝合金轮毂</li>
+          <li class="new">全景天幕 + 电动遮阳帘</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">🎵 座舱豪华（升级）</div>
+        <ul class="config-list">
+          <li class="new">15.6"自适应旋转中控屏</li>
+          <li class="new">W-HUD 10.8英寸抬头显示</li>
+          <li class="new">四音区语音交互</li>
+          <li class="new">8扬声器Hi-Fi定制音效</li>
+          <li class="new">多彩氛围灯 · 后排扶手</li>
+          <li class="new">主副驾按摩 · 主驾记忆</li>
+          <li class="new">双温区空调 · 50W无线快充</li>
+          <li class="new">前排远端安全气囊（7气囊）</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div class="recommend-bar">
+          <div class="stars">★★★★★</div>
+          <div class="recommend-text">插混五星推荐</div>
+        </div>
+        <div class="tag-row">
+          <span class="mini-tag purple">性价比之王</span>
+          <span class="mini-tag purple">家用顶配</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EV纯电版 -->
+  <div class="section-title ev">
+    <div class="icon">EV</div>
+    <h2>秦MAX EV 纯电版</h2>
+    <span class="tag-count">5款车型 · 后置后驱 · 第二代刀片闪充</span>
+  </div>
+  <div class="cards-row">
+
+    <!-- 530KM领先型 -->
+    <div class="card leading">
+      <div class="card-header">
+        <span class="type-tag">⚡ 纯电版</span>
+        <div class="card-version">530KM 领先型</div>
+        <div class="card-price"><span class="num">10.99</span><span class="unit">万元</span></div>
+        <div class="battery-line">
+          <span>52.87kWh二代刀片</span>
+          <span>·</span>
+          <span>CLTC 530km · 闪充9分钟</span>
+        </div>
+      </div>
+      <div class="highlight-box ev-highlight">
+        <div class="highlight-title">⚡ 纯电入门 · 闪充加持</div>
+        <ul class="highlight-list">
+          <li>后置后驱120kW · 零百9.6s</li>
+          <li>闪充：10%-70%仅5分钟</li>
+          <li>115L电动前备箱 + 523L后备箱</li>
+          <li>双球头麦弗逊 + 后五连杆</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">⚡ 三电与底盘</div>
+        <ul class="config-list">
+          <li>120kW后置后驱电机</li>
+          <li>52.868kWh第二代刀片电池</li>
+          <li>CTB电池车身一体化</li>
+          <li>闪充10%-97%约9分钟</li>
+          <li>6kW外放电 · 115L电动前备厢</li>
+          <li>前双球头麦弗逊+后五连杆</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">📱 座舱标配</div>
+        <ul class="config-list">
+          <li>DiLink 100 · 5G网络</li>
+          <li>8.8"仪表 + 12.8"中控屏</li>
+          <li>双音区语音 · 6扬声器</li>
+          <li>皮质座椅 · 主驾6向电动</li>
+          <li>全景影像 · LED大灯</li>
+          <li>6气囊 · TBC爆胎稳行</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div class="recommend-bar">
+          <div class="stars">★★★☆☆</div>
+          <div class="recommend-text">纯电网约/代步</div>
+        </div>
+        <div class="tag-row">
+          <span class="mini-tag green">性价比入门</span>
+          <span class="mini-tag blue">闪充技术</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 530KM超越型 -->
+    <div class="card surpass">
+      <div class="card-header">
+        <span class="type-tag">⚡ 纯电版</span>
+        <div class="card-version">530KM 超越型</div>
+        <div class="card-price"><span class="num">11.99</span><span class="unit">万元</span></div>
+        <div class="battery-line">
+          <span>52.87kWh二代刀片</span>
+          <span>·</span>
+          <span>CLTC 530km · 闪充9分钟</span>
+        </div>
+      </div>
+      <div class="highlight-box ev-highlight">
+        <div class="highlight-title">🔥 +1万 · 智驾舒适双丰收</div>
+        <ul class="highlight-list">
+          <li class="new">天神之眼C · 高速领航</li>
+          <li class="new">ACC + 拨杆变道 + 自动泊车</li>
+          <li class="new">主副驾通风+加热</li>
+          <li class="new">副驾电动 · Face ID · ETC</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">🧠 智驾全套（新增）</div>
+        <ul class="config-list">
+          <li class="new">天神之眼C纯视觉智驾</li>
+          <li class="new">HNOA高速领航辅助</li>
+          <li class="new">ACC · 拨杆变道</li>
+          <li class="new">AEB · 盲区监测 · 开门预警</li>
+          <li class="new">全场景自动泊车 AVP/APA</li>
+          <li class="new">电容方向盘 · 智驾拨片</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">🛋️ 舒适升级</div>
+        <ul class="config-list">
+          <li class="new">主副驾座椅通风+加热</li>
+          <li class="new">副驾4向电动调节</li>
+          <li class="new">Face ID人脸识别</li>
+          <li class="new">车载ETC · 全向行车记录仪</li>
+          <li class="new">雨量感应雨刮</li>
+          <li class="new">外后视镜电动折叠+盲区灯</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div class="recommend-bar">
+          <div class="stars">★★★★☆</div>
+          <div class="recommend-text">纯电黄金档</div>
+        </div>
+        <div class="tag-row">
+          <span class="mini-tag orange">推荐首选</span>
+          <span class="mini-tag blue">高速通勤</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 530KM卓越型 -->
+    <div class="card excellent">
+      <div class="card-header">
+        <span class="type-tag">⚡ 纯电版</span>
+        <div class="card-version">530KM 卓越型</div>
+        <div class="card-price"><span class="num">12.99</span><span class="unit">万元</span></div>
+        <div class="battery-line">
+          <span>52.87kWh二代刀片</span>
+          <span>·</span>
+          <span>CLTC 530km · 闪充9分钟</span>
+        </div>
+      </div>
+      <div class="highlight-box excellent-highlight">
+        <div class="highlight-title">👑 +1万 · 豪华拉满 性价比最高</div>
+        <ul class="highlight-list">
+          <li class="new">云辇-C智能阻尼悬架</li>
+          <li class="new">15.6"大屏 + W-HUD</li>
+          <li class="new">主副驾按摩 + 座椅记忆</li>
+          <li class="new">全景天幕 · 18"轮毂 · 无线充</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">🏁 底盘与外观</div>
+        <ul class="config-list">
+          <li class="new">云辇-C智能阻尼车身控制</li>
+          <li class="new">路面预瞄 + 舒适控制</li>
+          <li class="new">18寸双色铝合金轮毂（↑1寸）</li>
+          <li class="new">全景天幕 + 电动遮阳帘</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">🎵 座舱豪华升级</div>
+        <ul class="config-list">
+          <li class="new">15.6"自适应旋转中控屏</li>
+          <li class="new">W-HUD 10.8英寸抬头显示</li>
+          <li class="new">四音区语音（↑双音区）</li>
+          <li class="new">8扬声器Hi-Fi音效（↑6扬）</li>
+          <li class="new">环绕式多彩氛围灯</li>
+          <li class="new">后排中央扶手（双杯托）</li>
+          <li class="new">主副驾10点按摩 · 主驾记忆</li>
+          <li class="new">主驾8向电动（↑6向）</li>
+          <li class="new">双温区空调 · 50W无线快充</li>
+          <li class="new">前排远端安全气囊（7气囊）</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div class="recommend-bar">
+          <div class="stars">★★★★★</div>
+          <div class="recommend-text">全系性价比之王</div>
+        </div>
+        <div class="tag-row">
+          <span class="mini-tag purple">五星推荐</span>
+          <span class="mini-tag purple">云辇+大屏</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 630KM超越型 -->
+    <div class="card surpass">
+      <div class="card-header">
+        <span class="type-tag">⚡ 纯电版 · 长续航</span>
+        <div class="card-version">630KM 超越型</div>
+        <div class="card-price"><span class="num">13.29</span><span class="unit">万元</span></div>
+        <div class="battery-line">
+          <span>64.32kWh二代刀片</span>
+          <span>·</span>
+          <span>CLTC 630km · 零百5.9s</span>
+        </div>
+      </div>
+      <div class="highlight-box ev-highlight">
+        <div class="highlight-title">🚀 +1.3万 · 动力续航双飞跃</div>
+        <ul class="highlight-list">
+          <li class="new">电机升级到240kW（↑120kW）</li>
+          <li class="new">零百加速5.9s（↑3.7s）</li>
+          <li class="new">续航630km（↑100km）</li>
+          <li>同超越型完整智驾+舒适配置</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">⚡ 三电大升级</div>
+        <ul class="config-list">
+          <li class="new">240kW高功率后驱电机</li>
+          <li class="new">零百加速5.9秒级</li>
+          <li class="new">64.315kWh二代刀片电池</li>
+          <li class="new">CLTC续航630km</li>
+          <li class="new">最高车速190km/h（↑20）</li>
+          <li>闪充9分钟 · 6kW外放电</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">🧠 智驾座舱（同超越型）</div>
+        <ul class="config-list">
+          <li>天神之眼C · 高速领航</li>
+          <li>ACC · 拨杆变道 · 自动泊车</li>
+          <li>主副驾通风+加热</li>
+          <li>副驾电动 · Face ID · ETC</li>
+          <li>12.8"中控屏 · 双音区语音</li>
+          <li>17寸轮毂 · 6扬声器</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div class="recommend-bar">
+          <div class="stars">★★★★☆</div>
+          <div class="recommend-text">高速长途首选</div>
+        </div>
+        <div class="tag-row">
+          <span class="mini-tag orange">性能续航</span>
+          <span class="mini-tag blue">高频出行</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 630KM卓越型 -->
+    <div class="card excellent-top">
+      <div class="card-header">
+        <span class="type-tag">⚡ 纯电版 · 全系顶配</span>
+        <div class="card-version">630KM 卓越型</div>
+        <div class="card-price"><span class="num">14.39</span><span class="unit">万元</span></div>
+        <div class="battery-line">
+          <span>64.32kWh二代刀片</span>
+          <span>·</span>
+          <span>CLTC 630km · 零百5.9s</span>
+        </div>
+      </div>
+      <div class="highlight-box excellent-highlight">
+        <div class="highlight-title">🏆 满配旗舰 · 冰箱彩电大沙发</div>
+        <ul class="highlight-list">
+          <li class="new">一体式智能冷暖冰箱</li>
+          <li class="new">方向盘加热 · 内后视镜防眩</li>
+          <li class="new">双层隔音玻璃 · 后排隐私玻璃</li>
+          <li>240kW+云辇-C+15.6"屏全配齐</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">👑 顶配专属（卓越型+）</div>
+        <ul class="config-list">
+          <li class="new">一体式智能冷暖冰箱</li>
+          <li class="new">方向盘加热</li>
+          <li class="new">自动防眩目内后视镜</li>
+          <li class="new">LED贯穿式前位置灯</li>
+          <li class="new">前风挡双层隔音玻璃</li>
+          <li class="new">后排隐私玻璃</li>
+        </ul>
+      </div>
+      <div class="config-section">
+        <div class="config-section-title">🏆 旗舰齐全（卓越型标配）</div>
+        <ul class="config-list">
+          <li>240kW高功率 · 630km续航</li>
+          <li>云辇-C智能阻尼悬架</li>
+          <li>15.6"旋转屏 + W-HUD</li>
+          <li>四音区语音 · 8扬声器Hi-Fi</li>
+          <li>主副驾按摩 · 主驾记忆</li>
+          <li>18寸轮毂 · 全景天幕</li>
+          <li>50W无线充 · 双温区空调</li>
+          <li>7气囊 · 氛围灯 · 后排扶手</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div class="recommend-bar">
+          <div class="stars">★★★★★</div>
+          <div class="recommend-text">一步到位满配</div>
+        </div>
+        <div class="tag-row">
+          <span class="mini-tag purple">旗舰品质</span>
+          <span class="mini-tag purple">不差钱之选</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 选装说明 -->
+  <div class="summary-bar">
+    <h3>🎯 选购建议 · 按场景抄作业</h3>
+    <div class="summary-grid">
+      <div class="summary-item s1">
+        <div class="s-title">💵 极致预算 10万档</div>
+        <div class="s-desc">
+          <b>DM-i 230KM领先型 9.99万</b><br>
+          适合：网约车、纯代步、对智驾要求不高<br>
+          优点：价格最低、绿牌免购置税、亏电2.59L超省
+        </div>
+      </div>
+      <div class="summary-item s2">
+        <div class="s-title">⭐ 家用首选 11-12万档</div>
+        <div class="s-desc">
+          <b>DM-i 230超越 / EV 530超越</b><br>
+          适合：绝大多数家庭用户<br>
+          理由：+1万补齐天神之眼C智驾+座椅通风加热等核心痛点，性价比极高
+        </div>
+      </div>
+      <div class="summary-item s3">
+        <div class="s-title">🌟 五星推荐 13万档</div>
+        <div class="s-desc">
+          <b>EV 530KM卓越型 12.99万</b><br>
+          适合：纯电家用、追求舒适体验<br>
+          理由：+1万再添云辇-C悬架+15.6寸大屏+HUD+按摩，每一分钱都花在刀刃上
+        </div>
+      </div>
+      <div class="summary-item s4">
+        <div class="s-title">🚀 性能/满配 13-14万档</div>
+        <div class="s-desc">
+          <b>630超越 / 630卓越 / 320卓越</b><br>
+          适合：常跑高速、追求长续航/性能<br>
+          不差钱：EV 630卓越 14.39万 + 1.2万激光包 = 天神之眼B城区NOA拉满
+        </div>
+      </div>
+    </div>
+    <div class="upgrade-tip">
+      💎 <b>全系选装</b>：双色车身 +3000元 · 天神之眼B激光智驾套件 +12000元（城区领航+全场景泊车）<br>
+      🎁 <b>上市权益（9.30前）</b>：金融贴息至高5100元 · 置换至高4000元 · EV赠1年免费闪充 · 三电终身质保
+    </div>
+  </div>
+
+  <div class="footer-note">
+    数据来源：比亚迪官方 · 2026年8月13日秦MAX上市发布会配置表 · 价格为官方指导价，实际以当地经销商为准<br>
+    制作：汽车配置对比图解 · 仅供参考
+  </div>
+
+</div>
+</body>
+</html>
